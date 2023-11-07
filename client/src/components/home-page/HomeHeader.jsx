@@ -2,7 +2,9 @@ import React from 'react'
 
 function HomeHeader() {
   return (
-    <div>HomeHeader</div>
+    <div className='w-full'>
+        HomeHeader
+    </div>
   )
 }
 
