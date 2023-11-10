@@ -1,11 +1,12 @@
-import React from 'react'
+// import React from 'react'
+// import HomeNavbar from './HomeNavbar'
 
-function HomeHeader() {
-  return (
-    <div className='w-full'>
-        HomeHeader
-    </div>
-  )
-}
+// function HomeHeader() {
+//   return (
+//     <div className='w-full'>
+//       <HomeNavbar/>
+//     </div>
+//   )
+// }
 
-export default HomeHeader
+// export default HomeHeader
