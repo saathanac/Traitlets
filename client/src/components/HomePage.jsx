@@ -1,11 +1,11 @@
 import React from 'react';
-import HomeHeader from './home-page/HomeHeader';
+import HomeNavbar from './home-page/HomeNavbar';
 import HomeContent from './home-page/HomeContent';
 
 function HomePage() {
   return (
     <div className='absolute bg-gray-200 h-[100%] w-full'>
-      <HomeHeader/>
+      <HomeNavbar />
       <HomeContent/>
     </div>
   );
