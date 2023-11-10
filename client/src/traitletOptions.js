@@ -82,11 +82,11 @@ const traitletOptions = {
     ],
     "size": [
         //in the final form do we need both size in letters and numbers? could we just have nums in the final form
-        {"XS":'xs - 16cm'},
-        {"S":'s - 16.5cm'},
-        {"M":'m - 18cm'},
-        {"L":'l - 20cm'},
-        {"XL":'xl - 21cm'},
+        {"name":'XS', "size":'16 cm'},
+        {"name":'S', "size":'16.5 cm'},
+        {"name":'M', "size":'18 cm'},
+        {"name":'L', "size":'20 cm'},
+        {"name":'XL', "size":'21 cm'},
     ]
 }
 
