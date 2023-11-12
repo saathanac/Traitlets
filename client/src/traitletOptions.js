@@ -92,3 +92,33 @@ const traitletOptions = {
 
 export default traitletOptions
   
+// orderInformation = {
+//     id:,
+//     date:,
+//     clientInfo: {
+//         name:,
+//         email:,
+//         phoneNumber:,
+//         shippingDetails:{
+//             address:,
+//             city:,
+//             province:,
+//             country:,
+//         }
+    // braceletDetails:{
+    //     base-beads:,
+    //     accessory-beads:,
+    //     centrpiece:{
+    //         front-side:{
+    //             type:,
+    //             design:
+    //         }
+    //         back-side:{
+    //             type:,
+    //             design:
+    //         }
+    //     },
+    //     size:
+    // }
+    // }
+// }
