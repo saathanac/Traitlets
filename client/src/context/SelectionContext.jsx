@@ -20,10 +20,48 @@ const SelectionContextProvider = ({ children }) => {
   const [options, setOptions] = useState([])
   const [selectionTitle, setSelectionTitle] = useState('Base Beads')
   const steps = ['base-beads', 'accessory-beads', 'centerpiece', 'size'];
+  const [braceletDetails, setBraceletDetails] = useState({
+    braceletDetails: {
+      'base-beads': null,
+      'accessory-beads': null,
+      'centerpiece': {
+        'front-side': {
+          'type': null,
+          'design': null,
+        },
+        'back-side': {
+          'type': null,
+          'design': null,
+        },
+      },
+      'size': null,
+    },
+  });
 
   useEffect(() => {
     renderOptions()
   }, [activeStep])
+  
+  const addToOrder = (name, side, design) => {
+    let tempBraceletInfo = braceletDetails
+    if(activeStep!= 2){
+      // Create a deep copy of the state to avoid mutating the original state
+      const property = steps[activeStep]
+
+      // Use bracket notation to dynamically select the property based on the name
+      tempBraceletInfo.braceletDetails[property] = name;
+      console.log(tempBraceletInfo)
+    }
+    else if(side && design && activeStep == 2){
+      tempBraceletInfo.braceletDetails.centerpiece[side] = design
+      console.log(tempBraceletInfo)
+    }
+    else{
+      console.log("error with addToOrder")
+    }
+    setBraceletDetails(tempBraceletInfo)
+  };
+  
 
   const isStepOptional = (step) => {
     return step === null;
@@ -52,7 +90,6 @@ const SelectionContextProvider = ({ children }) => {
         setSelectionTitle('Size')
       break;
     }
-    console.log(options)
   }
 
   const handleNext = () => {
@@ -91,7 +128,7 @@ const SelectionContextProvider = ({ children }) => {
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
-      handleSkip, handleBack, handleNext, steps, options, selectionTitle}}>
+      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails}}>
       {children}
     </SelectionContext.Provider>
   );
