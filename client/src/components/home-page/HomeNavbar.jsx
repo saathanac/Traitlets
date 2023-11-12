@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeHamburger from './HomeHamburger';
+import NewHomeHamburger from './NewHomeHamburger';
 import HomeLogo from './HomeLogo';
 
 const HomeNavbar = () => {
@@ -12,7 +12,7 @@ const HomeNavbar = () => {
         <p className="font-bold text-white">Traitlets</p>
       </div>
       <div className="flex-grow flex justify-end">
-        <HomeHamburger />
+        <NewHomeHamburger />
       </div>
     </nav>
   );
