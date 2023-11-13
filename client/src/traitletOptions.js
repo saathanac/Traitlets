@@ -7,13 +7,13 @@ const traitletOptions = {
             "id":"black-wood",
             "name":"Black Wood",
             "hex":"",
-            "image":"",
+            "image":"/images/black-wood.png",
         },
         {
             "id":"ivory-wood",
             "name":"Ivory Wood",
             "hex":"",
-            "image":"",
+            "image":"/images/ivory-wood.png",
         },
     ],
     "accessory-beads": [
@@ -21,53 +21,72 @@ const traitletOptions = {
             "id":"blue-glass",
             "name":"Blue Glass",
             "hex":"",
-            "image":"",
+            "image":"/images/blue-glass.png",
         },
         {
             "id":"yellow-glass",
             "name":"Yellow Glass",
             "hex":"",
-            "image":"",
+            "image":"/images/yellow-glass.png",
         },
         {
             "id":"craked-red-glass",
             "name":"Cracked Red Glass",
             "hex":"",
-            "image":"",
+            "image":"./images/red-cracked.png",
         },
         {
             "id":"craked-black-glass",
             "name":"Cracked Black Glass",
             "hex":"",
-            "image":"",
-        }
+            "image":"/images/black-cracked.png",
+        },
+        {
+            "id":"brown-jasper",
+            "name":"Brown Jasper",
+            "hex":"",
+            "image":"./images/brown-jasper.png",
+        },
+        {
+            "id":"purple-cracked",
+            "name":"Cracked Purple Glass",
+            "hex":"",
+            "image":"./images/purple_cracked.png",
+        },
+        {
+            "id":"rose-quartz",
+            "name":"Rose Quartz",
+            "hex":"",
+            "image":"./images/rose-quartz.png",
+        },
+        {
+            "id":"white-pearl",
+            "name":"White Pearl",
+            "hex":"",
+            "image":"./images/white-pearl.png",
+        },
     ],
     "centerpiece": [
         //may require specific image sizes
         {
-            "id":"text",
-            "name":"Text",
-            "maxLength": 7,
-        },
-        {
             "id":"heart",
             "name":"Heart",
-            "image":"",
+            "image":"./images/heart.svg",
         },
         {
             "id":"infinity-heart",
             "name":"Infinity Heart",
-            "image":"",
+            "image":"./images/inf-heart.jpeg",
         },
         {
             "id":"heartbeat",
             "name":"Heartbeat",
-            "image":"",
+            "image":"./images/heart-beat.png",
         },
         {
             "id":"soccer",
             "name":"Soccer Ball",
-            "image":"",
+            "image":"./images/soccer.png",
         },
         {
             "id":"basketball",
@@ -77,11 +96,10 @@ const traitletOptions = {
         {
             "id":"football",
             "name":"Football",
-            "image":"",
+            "image":"./images/football.jpg",
         },
     ],
     "size": [
-        //in the final form do we need both size in letters and numbers? could we just have nums in the final form
         {"name":'XS', "size":'16 cm'},
         {"name":'S', "size":'16.5 cm'},
         {"name":'M', "size":'18 cm'},
