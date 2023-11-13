@@ -13,9 +13,15 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 function SelectionsDisplay() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options } = useSelectionContext()
-    const [value, setValue] = React.useState(0);
+    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder } = useSelectionContext()
+    const [value, setValue] = useState(0);
     const [type, setType] = useState('icon');
+    const [engravingText, setEngravingText] = useState('');
+
+    const handleEngravingChange = (event) => {
+        setEngravingText(event.target.value);
+        addCenterpieceToOrder(event.target.value)
+    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -25,25 +31,62 @@ function SelectionsDisplay() {
         setType(event.target.value);
     };
 
+    const addCenterpieceToOrder = (val) => {
+        let side = 'front-side'
+
+        switch(value){
+            case 0:
+                side = 'front-side'
+            break;
+            case 1:
+                side = 'back-side'
+            break;
+        }
+
+        let details = {
+            'type': null,
+            'design': null
+        }
+
+        if(type == 'none'){
+            details.type = 'none'
+            details.design = 'none'
+        }
+        else if(type == 'icon'){
+            details.type = 'icon'
+            details.design = val
+        }
+        else if(type == 'text'){
+            details.type = 'text'
+            details.design = val
+        }
+        else{
+            console.log('error with centerpiece selection')
+        }
+       
+        addToOrder(val, side, details)
+    }
+
   return (
     <div className='bg-white absolute bottom-0 w-full h-[42%]'>
         <StepNavigation/>
         <div className='flex justify-center gap-16'>
             {activeStep != 2 ? 
                 options.map((optionObj) => {
-                    console.log(optionObj)
                     return(
-                        <OptionButton opt={optionObj} step={activeStep}/>
+                        <div onClick={(event) => {event.stopPropagation(); addToOrder(optionObj.name)}}>
+                            <OptionButton opt={optionObj} step={activeStep}/>
+                        </div>
                     )
                 })
             : 
                 <div>
                     <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example" >
-                        <Tab label="Front Side" sx={{  width:'420px' }}/>
-                        <Tab label="Back Side" sx={{ width:'420px' }}/>
+                        <Tab label="front-side" sx={{  width:'420px' }}/>
+                        <Tab label="back-side" sx={{ width:'420px' }}/>
                     </Tabs>
                     <div className='flex'>
-                        <Box sx={{minWidth: 120, maxWidth: 120, marginTop:4 }}>
+                        <Box sx={{minWidth: 120, maxWidth: 120, marginTop: 8, marginRight:4 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Engraving</InputLabel>
                                 <Select
@@ -51,7 +94,7 @@ function SelectionsDisplay() {
                                 id="demo-simple-select"
                                 value={type}
                                 label="Engraving"
-                                onChange={handleChangeDesign}
+                                onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder()}
                                 >
                                     <MenuItem value={'icon'}>Icon</MenuItem>
                                     <MenuItem value={'text'}>Text</MenuItem>
@@ -68,23 +111,24 @@ function SelectionsDisplay() {
                                 noValidate
                                 autoComplete="off"
                             >
-                                <TextField id="standard-basic" label="Engraving Text ..." variant="standard" />
+                                <TextField id="standard-basic" label="Engraving Text ..." variant="standard" value={engravingText} onChange={handleEngravingChange}/>
                             </Box>
                         </div>}
                         
                         {/* fix this */}
                         {type == 'icon' && <div className='flex gap-8'>
                             {options.map((optionObj) => {
-                                console.log(optionObj)
                                 return(
-                                    <OptionButton opt={optionObj} step={activeStep}/>
+                                    <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj.name);}}>
+                                        <OptionButton opt={optionObj} side={value}/>
+                                    </div>
                                 )
                             })}
 
                         </div>}
                     </div>
                 </div>
-        }
+            }
         </div>
     </div>
   )
