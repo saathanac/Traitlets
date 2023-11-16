@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Checkout from './pages/Checkout';
 import Builder from './pages/Builder';
 import {SelectionContextProvider} from './context/SelectionContext';
+import * as THREE from 'three';
 
 function App() {
   return (
