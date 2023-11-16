@@ -1,21 +1,22 @@
 import React from 'react';
-import NewHomeHamburger from './NewHomeHamburger';
+import HomeHamburger from './HomeHamburger';
 import HomeLogo from './HomeLogo';
 
 const HomeNavbar = () => {
   return (
-    <nav className="bg-gray-800 p-4 text-white flex items-center">
+    <nav className="bg-gray-800 p-4 text-white flex items-center h-30">
       <div className="flex-grow">
-        <HomeLogo />
+        <HomeLogo/>
       </div>
       <div className="flex-grow-0">
-        <p className="font-bold text-white">Traitlets</p>
+        <p className="mt-4 text-4xl font-bold text-white">Traitlets</p>
       </div>
       <div className="flex-grow flex justify-end">
-        <NewHomeHamburger />
+        <HomeHamburger />
       </div>
     </nav>
   );
 };
 
 export default HomeNavbar;
+
