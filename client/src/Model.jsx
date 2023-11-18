@@ -13,13 +13,13 @@ export default function Model(props) {
 
   const texture = new TextureLoader().load('public/images/blue-glass.png');
   const sideBead = new MeshBasicMaterial({ map: texture });
-  pngMaterial.color.setRGB(0.1, 0.1, 1.0);
+  sideBead.color.setRGB(0.1, 0.1, 1.0);
 
   // Replace the existing materials with the new blue material for all spheres
   for (let i = 1; i <= 29; i++) {
     const sphereKey = `Sphere${String(i).padStart(3, '0')}`;
-    if (nodes[sphereKey]) {
-      nodes[sphereKey].material = pngMaterial;
+    if (nodes[sphereKey] && ( i == 11 || i == 10 )) {
+      nodes[sphereKey].material = sideBead;
     }
   }
   const braceletDetails  = useContext(SelectionContext);
