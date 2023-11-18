@@ -62,6 +62,9 @@ const SelectionContextProvider = ({ children }) => {
     setBraceletDetails(tempBraceletInfo)
   };
   
+  useEffect(() => {
+    console.log('Bracelet Details Updated:', braceletDetails);
+  }, [braceletDetails]); // Run the effect whenever braceletDetails changes
 
   const isStepOptional = (step) => {
     return step === null;

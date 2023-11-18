@@ -4,9 +4,12 @@ import { Environment, Center } from '@react-three/drei'
 import Backdrop from './Backdrop'
 import CameraRig from './CameraRig'
 import Model from '../Model.jsx'
+import {SelectionContextProvider} from '/Users/alexcholmsky/Traitlets/client/src/context/SelectionContext.jsx';
+
 
 const CanvasModel = () => {
   return (
+    <SelectionContextProvider>
     <Canvas>
         <ambientLight intensity={0.5} />
         <Environment preset='city'/>
@@ -18,6 +21,7 @@ const CanvasModel = () => {
             </Center>
         </CameraRig>
     </Canvas>
+    </SelectionContextProvider>
   )
 }
 
