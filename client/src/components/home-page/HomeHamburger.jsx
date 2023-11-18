@@ -17,7 +17,6 @@ export default function HomeHamburger() {
     navigate(route);
     setOpen(false);
   };
-// known bug: dropdown does not stay fixed
   return (
     <div ref={ref}>
       <Hamburger toggled={isOpen} size={20} toggle={setOpen} />
