@@ -5,29 +5,72 @@ Command: npx gltfjsx@6.2.15 ../public/model2.glb
 
 import React, {useContext, useEffect } from 'react';
 import { useGLTF } from '@react-three/drei'
-import { MeshBasicMaterial, TextureLoader } from 'three'; // Import necessary classes from Three.js
-import { SelectionContext } from './context/SelectionContext.jsx';
+import { MeshBasicMaterial, TextureLoader, LinearFilter} from 'three'; // Import necessary classes from Three.js
+import { useSelectionContext } from './context/SelectionContext.jsx';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb')
+  const { braceletDetails} = useSelectionContext()
 
-  const texture = new TextureLoader().load('public/images/blue-glass.png');
-  const sideBead = new MeshBasicMaterial({ map: texture });
-  sideBead.color.setRGB(0.1, 0.1, 1.0);
+useEffect(() => {
+  if (
+    braceletDetails?.braceletDetails?.['base-beads']
+  ) {
+    console.log(braceletDetails.braceletDetails['base-beads'])
+    const texture = new TextureLoader().load(braceletDetails.braceletDetails['base-beads']['image']);
+    const mainBead = new MeshBasicMaterial({
+      map: texture,
+      color: braceletDetails.braceletDetails['base-beads']['hex'], // Replace with your desired hexadecimal color
+    });
 
-  // Replace the existing materials with the new blue material for all spheres
-  for (let i = 1; i <= 29; i++) {
-    const sphereKey = `Sphere${String(i).padStart(3, '0')}`;
-    if (nodes[sphereKey] && ( i == 11 || i == 10 )) {
-      nodes[sphereKey].material = sideBead;
+    // Replace the existing materials with the new blue material for all spheres
+    for (let i = 1; i <= 29; i++) {
+      console.log('happening')
+      const sphereKey = `Sphere${String(i).padStart(3, '0')}`;
+      if (nodes[sphereKey]) {
+        nodes[sphereKey].material = mainBead;
+      }
     }
   }
-  const braceletDetails  = useContext(SelectionContext);
 
-  useEffect(() => {
-    console.log('Bracelet Details Updated no work:', braceletDetails);
-  }, [braceletDetails]); 
-  
+  if (
+    braceletDetails?.braceletDetails?.['accessory-beads']
+  ) {
+    console.log(braceletDetails.braceletDetails['accessory-beads'])
+    const texture = new TextureLoader().load(braceletDetails.braceletDetails['accessory-beads']['image']);
+    const sideBead = new MeshBasicMaterial({
+      map: texture,
+      color: braceletDetails.braceletDetails['accessory-beads']['hex'], // Replace with your desired hexadecimal color
+    });
+
+    // Replace the existing materials with the new blue material for all spheres
+    for (let i = 10; i <= 11; i++) {
+      console.log('happening')
+      const sphereKey = `Sphere${String(i).padStart(3, '0')}`;
+      if (nodes[sphereKey]) {
+        nodes[sphereKey].material = sideBead;
+      }
+    }
+  }
+
+  if (
+    braceletDetails?.braceletDetails?.['centerpiece']['front-side']['image']
+  ) {
+    console.log(braceletDetails.braceletDetails['centerpiece'], braceletDetails.braceletDetails['centerpiece']['front-side']['image'])
+    const texture = new TextureLoader().load(braceletDetails.braceletDetails['centerpiece']['front-side']['image']);
+    // texture.minFilter = LinearFilter
+    const sideBead = new MeshBasicMaterial({
+      map: texture
+    });
+
+    // Replace the existing materials with the new blue material for all spheres
+    for (let i = 1; i <= 1; i++) {
+      console.log('happening cylinder')
+      nodes['Cylinder'].material = sideBead
+    }
+  }
+}, [braceletDetails]);
+
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Torus001.geometry} material={nodes.Torus001.material} position={[-0.069, 0, 0.031]} rotation={[0, -0.728, 0]}>

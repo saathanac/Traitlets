@@ -43,24 +43,24 @@ const SelectionContextProvider = ({ children }) => {
   }, [activeStep])
   
   const addToOrder = (name, side, design) => {
-    let tempBraceletInfo = braceletDetails
-    if(activeStep!= 2){
-      // Create a deep copy of the state to avoid mutating the original state
-      const property = steps[activeStep]
-
-      // Use bracket notation to dynamically select the property based on the name
-      tempBraceletInfo.braceletDetails[property] = name;
-      console.log(tempBraceletInfo)
-    }
-    else if(side && design && activeStep == 2){
-      tempBraceletInfo.braceletDetails.centerpiece[side] = design
-      console.log(tempBraceletInfo)
-    }
-    else{
-      console.log("error with addToOrder")
-    }
-    setBraceletDetails(tempBraceletInfo)
+    setBraceletDetails((prevDetails) => {
+      const tempBraceletInfo = { ...prevDetails }; // Create a shallow copy
+  
+      if (activeStep !== 2) {
+        const property = steps[activeStep];
+        tempBraceletInfo.braceletDetails[property] = name;
+      } else if (side && design && activeStep === 2) {
+        // Make sure the centerpiece object exists before updating
+        tempBraceletInfo.braceletDetails.centerpiece = tempBraceletInfo.braceletDetails.centerpiece || {};
+        tempBraceletInfo.braceletDetails.centerpiece[side] = design;
+      } else {
+        console.error("Error with addToOrder");
+      }
+  
+      return { ...tempBraceletInfo }; // Return a new object reference
+    });
   };
+  
   
   useEffect(() => {
     console.log('Bracelet Details Updated:', braceletDetails);
