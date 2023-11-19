@@ -48,7 +48,12 @@ const SelectionContextProvider = ({ children }) => {
   
       if (activeStep !== 2) {
         const property = steps[activeStep];
-        tempBraceletInfo.braceletDetails[property] = name;
+        if((activeStep == 3 && name.name)){
+          tempBraceletInfo.braceletDetails[property] = name?.name;
+        }
+        else{
+          tempBraceletInfo.braceletDetails[property] = name;
+        }
       } else if (side && design && activeStep === 2) {
         // Make sure the centerpiece object exists before updating
         tempBraceletInfo.braceletDetails.centerpiece = tempBraceletInfo.braceletDetails.centerpiece || {};
