@@ -11,7 +11,7 @@ import { SelectionContext, useSelectionContext, SelectionContextProvider } from 
 function StepNavigation() {
     const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options } = useSelectionContext()
     return (
-        <div>
+        <div className={activeStep != 2 && 'mb-16'}>
             {activeStep === steps.length ? (
                 <React.Fragment>
                 <Button

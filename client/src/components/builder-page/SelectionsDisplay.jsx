@@ -87,12 +87,12 @@ function SelectionsDisplay() {
                 })
             : 
                 <div>
-                    <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example" >
+                    <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example">
                         <Tab label="front-side" sx={{  width:'420px' }}/>
                         <Tab label="back-side" sx={{ width:'420px' }}/>
                     </Tabs>
                     <div className='flex'>
-                        <Box sx={{minWidth: 120, maxWidth: 120, marginTop: 8, marginRight:4 }}>
+                        <Box sx={{minWidth: 120, maxWidth: 120, marginTop: 5.5, marginRight:4 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Engraving</InputLabel>
                                 <Select
@@ -122,7 +122,7 @@ function SelectionsDisplay() {
                         </div>}
                         
                         {/* fix this */}
-                        {type == 'icon' && <div className='flex gap-8'>
+                        {type == 'icon' && <div className='flex gap-8 mt-12'>
                             {options.map((optionObj) => {
                                 return(
                                     <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj);}}>

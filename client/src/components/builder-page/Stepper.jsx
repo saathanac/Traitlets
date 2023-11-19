@@ -15,20 +15,17 @@ export default function HorizontalLinearStepper() {
 
     return (
         <Box sx={{ width: '100%' }}>
-        <Stepper activeStep={activeStep}>
-            {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
-            if (isStepSkipped(index)) {
-                stepProps.completed = false;
-            }
-            return (
-                <Step key={index} {...stepProps}>
-                <StepLabel {...labelProps}></StepLabel>
-                </Step>
-            );
-            })}
-        </Stepper>
+            <Stepper activeStep={activeStep}>
+                {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                return (
+                    <Step key={index} {...stepProps}>
+                        <StepLabel {...labelProps}></StepLabel>
+                    </Step>
+                );
+                })}
+            </Stepper>
         </Box>
     );
 }
