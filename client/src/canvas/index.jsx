@@ -4,24 +4,22 @@ import { Environment, Center } from '@react-three/drei'
 import Backdrop from './Backdrop'
 import CameraRig from './CameraRig'
 import Model from '../Model.jsx'
-import {SelectionContextProvider} from '/Users/alexcholmsky/Traitlets/client/src/context/SelectionContext.jsx';
-
 
 const CanvasModel = () => {
   return (
-    <SelectionContextProvider>
     <Canvas>
-        <ambientLight intensity={0.5} />
-        <Environment preset='city'/>
-        <pointLight position={[0, 0, 0]} />
-        <CameraRig>
-            {/* <Backdrop/> */}
-            <Center>
-                <Model />
-            </Center>
-        </CameraRig>
+      <ambientLight intensity={0.5} />
+      <Environment preset='city'/>
+      <pointLight position={[0, 0, 0]} />
+      <CameraRig>
+        <Center>
+          {/* Wrap the Model component in a scene to allow manipulation of the Three.js scene */}
+          <scene>
+              <Model />
+          </scene>
+        </Center>
+      </CameraRig>
     </Canvas>
-    </SelectionContextProvider>
   )
 }
 

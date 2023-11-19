@@ -32,6 +32,7 @@ function SelectionsDisplay() {
     };
 
     const addCenterpieceToOrder = (val) => {
+        console.log("value", val)
         let side = 'front-side'
 
         switch(value){
@@ -45,25 +46,30 @@ function SelectionsDisplay() {
 
         let details = {
             'type': null,
-            'design': null
+            'design': null,
+            'image': null
         }
 
         if(type == 'none'){
             details.type = 'none'
             details.design = 'none'
+            details.image = 'none'
         }
         else if(type == 'icon'){
             details.type = 'icon'
-            details.design = val
+            details.design = val.name
+            details.image = val.image
         }
         else if(type == 'text'){
             details.type = 'text'
-            details.design = val
+            details.design = val.name
+            details.image = val.image
         }
         else{
             console.log('error with centerpiece selection')
         }
-       
+        console.log("details", details)
+
         addToOrder(val, side, details)
     }
 
@@ -74,7 +80,7 @@ function SelectionsDisplay() {
             {activeStep != 2 ? 
                 options.map((optionObj) => {
                     return(
-                        <div onClick={(event) => {event.stopPropagation(); addToOrder(optionObj.name)}}>
+                        <div onClick={(event) => {event.stopPropagation(); addToOrder(optionObj)}}>
                             <OptionButton opt={optionObj} step={activeStep}/>
                         </div>
                     )
@@ -119,7 +125,7 @@ function SelectionsDisplay() {
                         {type == 'icon' && <div className='flex gap-8'>
                             {options.map((optionObj) => {
                                 return(
-                                    <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj.name);}}>
+                                    <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj);}}>
                                         <OptionButton opt={optionObj} side={value}/>
                                     </div>
                                 )
