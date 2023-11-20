@@ -7,10 +7,13 @@ function OptionButton(opt) {
     
     const checkSelected = (name) => {
         let face = 'front-side'
-        if(activeStep != 2){
+        if(activeStep == 3 ){
             return braceletDetails.braceletDetails[steps[activeStep]] == name
         }
-        else if(activeStep == 2){
+        else if(activeStep != 2){
+            return braceletDetails.braceletDetails[steps[activeStep]]?.name == name
+        }
+        else{
             if(opt.side == 0){
                 face = 'front-side'
             }
@@ -24,9 +27,9 @@ function OptionButton(opt) {
   return (
     // <div className='w-12 h-12 rounded-full border-2 border-gray-300 hover:border-gray-400 cursor-pointer' key={1}>
     // </div>
-    <div className='relative group mt-16'>
+    <div className='relative group'>
         <Tooltip title={opt.step == 3 ? opt.opt.size : opt.opt.name}>
-            <button className='w-12 h-12 rounded-full border-2 bg-white flex p-0.5 justify-center border-gray-300 group-hover:border-gray-400 cursor-pointer text-gray-700 transition-all duration-300 ease-in-out'>
+            <button className={`w-12 h-12 rounded-full border-2 bg-white flex p-0.5 justify-center ${checkSelected(opt.opt.name)  ? 'border-blue-400' : 'border-gray-300'} group-hover:border-gray-400 cursor-pointer text-gray-700 transition-all duration-300 ease-in-out`}>
                 {opt.step == 3 && (
                     <div className='m-auto'>
                         {opt.opt.name}
