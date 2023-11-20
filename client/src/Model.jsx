@@ -4,9 +4,10 @@ Command: npx gltfjsx@6.2.15 ../public/model2.glb
 */
 
 import React, {useContext, useEffect, useState } from 'react';
-import { Decal, useGLTF, useTexture } from '@react-three/drei'
-import { MeshBasicMaterial, MeshStandardMaterial, TextureLoader, LinearFilter, DoubleSide} from 'three'; // Import necessary classes from Three.js
+import { Decal, useGLTF, useTexture} from '@react-three/drei'
+import { MeshBasicMaterial, MeshStandardMaterial, Mesh, TextureLoader, LinearFilter, DoubleSide, Vector3, Euler} from 'three'; // Import necessary classes from Three.js
 import { useSelectionContext } from './context/SelectionContext.jsx';
+import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb')
@@ -15,7 +16,29 @@ export default function Model(props) {
   const [materialAccessoryKey, setMaterialAccessoryKey] = useState(null)
   const [cylinderMaterialKey, setCylinderMaterialKey] = useState(null)
   const [image, setImage] = useState('./images/soccer-icon.png')
- 
+  const decalPosition = new Vector3(0, -0.6, 0);
+  const decalRotation = [0, 0, 0]; // Adjust the rotation as needed
+  const decalSize = new Vector3(1, 1, 1); // Adjust the size as needed
+  
+  const mesh = new Mesh(nodes.Cylinder.geometry, nodes.Cylinder.material);
+    // Access the geometry
+  const geometry = nodes.Cylinder.geometry;
+
+  const decalMaterial = new MeshBasicMaterial({
+    map: new TextureLoader().load('public/images/soccer.png'),
+    depthTest: false,
+    depthWrite: true,
+    transparent: false, // You may need transparency for the decal
+  });
+  // decalMaterial.map.repeat.set(3, 3);  // Adjust these values based on your needs
+  decalMaterial.map.offset.set(0,0);
+  const decalGeometry = new DecalGeometry(
+    mesh, // The base geometry
+    decalPosition, // The position of the decal
+    decalRotation, // The rotation of the decal
+    decalSize // The size of the decal
+  );
+
 useEffect(() => {
   const loadTexture = () => new Promise((resolve) => {
     const textureLoader = new TextureLoader();
@@ -93,33 +116,27 @@ useEffect(() => {
     }
   }
 
-  if (
-    braceletDetails?.braceletDetails?.['centerpiece']['front-side']['image']
-  ) {
-    console.log(braceletDetails.braceletDetails['centerpiece'], braceletDetails.braceletDetails['centerpiece']['front-side']['image'])
-    const texture = new TextureLoader().load(braceletDetails.braceletDetails['centerpiece']['front-side']['image']);
-    // texture.minFilter = LinearFilter
-    const sideBead = new MeshStandardMaterial({
-      map: texture,
-      color: '#cfbe80',
-      side: DoubleSide,
-    });
+  // if (
+  //   braceletDetails?.braceletDetails?.['centerpiece']['front-side']['image']
+  // ) {
+  //   console.log(braceletDetails.braceletDetails['centerpiece'], braceletDetails.braceletDetails['centerpiece']['front-side']['image'])
+  //   const texture = new TextureLoader().load(braceletDetails.braceletDetails['centerpiece']['front-side']['image']);
+  //   const sideBead = new MeshStandardMaterial({
+  //     map: texture,
+  //     color: '#cfbe80',
+  //     side: DoubleSide,
+  //   });
 
-    setCylinderMaterialKey(braceletDetails?.braceletDetails?.['centerpiece']['front-side']['design'])
-
-    // Replace the existing materials with the new blue material for all spheres
-    for (let i = 1; i <= 1; i++) {
-      console.log('happening cylinder')
-      nodes['Cylinder'].material = sideBead
-    }
-  }
+  //   setCylinderMaterialKey(braceletDetails?.braceletDetails?.['centerpiece']['front-side']['design'])
+  //   nodes['Cylinder'].material = sideBead
+  // }
 }, [braceletDetails]);
 
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Torus001.geometry} material={nodes.Torus001.material} position={[-0.069, 0, 0.031]} rotation={[0, -0.728, 0]}>
         <mesh geometry={nodes.Cylinder.geometry} key={cylinderMaterialKey} material={nodes.Cylinder.material} position={[0.807, 0, 0.807]} rotation={[Math.PI / 2, 0, 2.356]} scale={[0.764, 0.649, 0.443]}>
-          <Decal position={[0,0,0]} rotation={[0,0,0]} scale={0.15} map={useTexture('./images/soccer-icon.png')} depthTest={false} depthWrite={true} />
+        <mesh geometry={decalGeometry} material={decalMaterial} />
         </mesh>
       </mesh>
       <mesh geometry={nodes.Sphere001.geometry} key={materialBaseKey} material={nodes.Sphere001.material} position={[0.681, 0, -0.81]} rotation={[0, -0.728, 0]} scale={0.118} />
