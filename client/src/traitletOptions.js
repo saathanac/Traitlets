@@ -76,27 +76,27 @@ const traitletOptions = {
         {
             "id":"infinity-heart",
             "name":"Infinity Heart",
-            "image":"./images/inf-heart.jpeg",
+            "image":"./images/infinity_heart.png",
         },
         {
             "id":"heartbeat",
             "name":"Heartbeat",
-            "image":"./images/heart-beat.png",
+            "image":"./images/heartbeat_transparent.png",
         },
         {
             "id":"soccer",
             "name":"Soccer Ball",
-            "image":"./images/soccer.png",
+            "image":"./images/soccer-icon.png",
         },
         {
             "id":"basketball",
             "name":"Basketball",
-            "image":"",
+            "image":"./images/basketball_transparent.png",
         },
         {
             "id":"football",
             "name":"Football",
-            "image":"./images/football.jpg",
+            "image":"./images/football_transparent.png",
         },
     ],
     "size": [
