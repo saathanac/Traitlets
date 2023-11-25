@@ -16,7 +16,6 @@ const SelectionContext = createContext(initialState);
 const SelectionContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [activeStep, setActiveStep] = useState(0);
-  const [centerpieceSide, setCenterpieceSide] = useState('front-side');
   const [skipped, setSkipped] = useState(new Set());
   const [options, setOptions] = useState([])
   const [selectionTitle, setSelectionTitle] = useState('Base Beads')
@@ -137,7 +136,7 @@ const SelectionContextProvider = ({ children }) => {
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
-      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide}}>
+      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails}}>
       {children}
     </SelectionContext.Provider>
   );
