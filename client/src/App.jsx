@@ -6,6 +6,8 @@ import Checkout from './pages/Checkout';
 import Builder from './pages/Builder';
 import {SelectionContextProvider} from './context/SelectionContext';
 import * as THREE from 'three';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -14,8 +16,9 @@ function App() {
         <Routes>
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/builder" element={<Builder />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} /> 
         </Routes>
+        <ToastContainer/>
       </BrowserRouter>
     </SelectionContextProvider>
   );
