@@ -9,7 +9,7 @@ import { useSelectionContext } from './context/SelectionContext.jsx';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb');
-  const { braceletDetails } = useSelectionContext();
+  const { braceletDetails, centerpieceSide, steps } = useSelectionContext();
   const [materialBaseKey, setMaterialKey] = useState(null);
   const [materialAccessoryKey, setMaterialAccessoryKey] = useState(null);
   const [cylinderMaterialKey, setCylinderMaterialKey] = useState(null);
@@ -115,14 +115,19 @@ export default function Model(props) {
       loadDefaultMaterial();
     }
 
-    if (braceletDetails?.braceletDetails?.['centerpiece']?.['front-side']?.['image']) {
-      console.log('updating')
+    if (centerpieceSide == 'front-side' && braceletDetails?.braceletDetails?.['centerpiece']?.['front-side']?.['image']) {
+      console.log(centerpieceSide, 'frontside')
       updateStickerMaterial(braceletDetails.braceletDetails['centerpiece']['front-side']['image']);
+    }
+    else if (centerpieceSide == 'back-side' && braceletDetails?.braceletDetails?.['centerpiece']?.['back-side']?.['image']) {
+      console.log(centerpieceSide, 'backside')
+      updateStickerMaterial(braceletDetails.braceletDetails['centerpiece']['back-side']['image']);
     }
     else{
       console.log('else called')
+      console.log(centerpieceSide, braceletDetails?.braceletDetails?.['centerpiece']?.['back-side']?.['image'], braceletDetails?.braceletDetails?.['centerpiece']?.['front-side']?.['image'])
     }
-  }, [braceletDetails]);
+  }, [braceletDetails, centerpieceSide, steps]);
 
   return (
     <group {...props} dispose={null}>
