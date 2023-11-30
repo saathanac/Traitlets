@@ -1,6 +1,8 @@
 // MyContext.js
 import React, { createContext, useReducer, useContext, useState, useEffect } from 'react';
 import traitletOptions from '../traitletOptions';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Define your initial state
 const initialState = {
@@ -103,15 +105,29 @@ const SelectionContextProvider = ({ children }) => {
   }
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+    if(stepCompleted()){
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    else{
+      toast.warn("Please make a selection to proceed", {
+        position: "top-right",
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
+
+  const stepCompleted = () => {
+    if((steps[activeStep] == 'base-beads' && !braceletDetails.braceletDetails['base-beads']) 
+      || (steps[activeStep] == 'size' && !braceletDetails.braceletDetails['size'])){
+      return false
+    }
+    return true
+  }
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -132,13 +148,10 @@ const SelectionContextProvider = ({ children }) => {
     });
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
-      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide}}>
+      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted}}>
       {children}
     </SelectionContext.Provider>
   );
