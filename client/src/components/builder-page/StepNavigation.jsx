@@ -1,49 +1,49 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import Box from '@mui/material/Box';
-
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { SelectionContext, useSelectionContext, SelectionContextProvider } from '../../context/SelectionContext';
+import { useNavigate } from 'react-router-dom';
 
 function StepNavigation() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options } = useSelectionContext()
+    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, stepCompleted, braceletDetails } = useSelectionContext()
+    const navigate = useNavigate()
+
+    const goToCheckout = () => {
+        localStorage.setItem('braceletDetails', JSON.stringify(braceletDetails));
+        navigate('/checkout')
+    }
     return (
-        <div className={activeStep != 2 && 'mb-16'}>
-            {activeStep === steps.length ? (
-                <React.Fragment>
-                <Button
-                    color="black"
+        <div className={activeStep != 2 && 'mb-16'}> 
+            <React.Fragment>
+                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'20%', margin:'auto' }} >
+                    <Button
+                    color="inherit"
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    sx={{ mr: 1, backgroundColor: '#333', color: 'white'}}
+                    sx={{ mr: 1, '& .MuiSvgIcon-root': { color: 'gray' } }}
                     >
                         <KeyboardArrowLeft />
                     </Button>
-                </React.Fragment>
-            ) : (
-                <React.Fragment>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'20%', margin:'auto' }} >
-                        <Button
-                        color="inherit"
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
-                        sx={{ mr: 1, '& .MuiSvgIcon-root': { color: 'gray' } }}
-                        >
-                            <KeyboardArrowLeft />
-                        </Button>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                            <Typography sx={{ mt: 2, mb: 1, fontSize: '14pt'}} className='text-gray-500 w-96 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'>{selectionTitle}</Typography>
-                        <Box sx={{ flex: '1 1 auto' }} />
+                    <Box sx={{ flex: '1 1 auto' }} />
+                        <Typography sx={{ mt: 2, mb: 1, fontSize: '14pt'}} className='text-gray-500 w-96 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'>{selectionTitle}</Typography>
+                    <Box sx={{ flex: '1 1 auto' }} />
 
-                        <Button onClick={handleNext} disabled={activeStep === steps.length - 1}>
-                            {<KeyboardArrowRight />}
-                        </Button>
-                    </Box>
-                </React.Fragment>
-            )}
+                    <Button 
+                        onClick={activeStep === steps.length - 1 ? goToCheckout : handleNext } 
+                        disabled={activeStep === steps.length - 1 && !braceletDetails.braceletDetails['size']}
+                    >
+                        {activeStep === steps.length - 1 
+                            ? <><ShoppingCartIcon className='mr-2 '/> Checkout</>
+                            : <KeyboardArrowRight /> 
+                        } 
+                    </Button>
+                </Box>
+            </React.Fragment>
         </div>
         )
     }
