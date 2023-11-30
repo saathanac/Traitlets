@@ -5,9 +5,6 @@ Command: npx gltfjsx@6.2.15 ../public/model2.glb
 import React, { useEffect, useState, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import {PlaneGeometry, MeshStandardMaterial, TextureLoader, CanvasTexture} from 'three';
-import { useSelectionContext } from './context/SelectionContext.jsx';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb');
