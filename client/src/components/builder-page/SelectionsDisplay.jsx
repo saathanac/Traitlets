@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 function SelectionsDisplay() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder } = useSelectionContext()
+    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide } = useSelectionContext()
     const [value, setValue] = useState(0);
     const [type, setType] = useState('icon');
     const [engravingText, setEngravingText] = useState('');
@@ -25,6 +25,14 @@ function SelectionsDisplay() {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        switch(newValue){
+            case 0:
+                setCenterpieceSide('front-side')
+            break;
+            case 1:
+                setCenterpieceSide('back-side')
+            break;
+        }
     };
     
     const handleChangeDesign = (event) => {
@@ -33,16 +41,6 @@ function SelectionsDisplay() {
 
     const addCenterpieceToOrder = (val) => {
         console.log("value", val)
-        let side = 'front-side'
-
-        switch(value){
-            case 0:
-                side = 'front-side'
-            break;
-            case 1:
-                side = 'back-side'
-            break;
-        }
 
         let details = {
             'type': null,
@@ -70,7 +68,7 @@ function SelectionsDisplay() {
         }
         console.log("details", details)
 
-        addToOrder(val, side, details)
+        addToOrder(val, centerpieceSide, details)
     }
 
   return (
