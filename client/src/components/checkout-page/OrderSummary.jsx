@@ -37,7 +37,7 @@ const OrderSummary = () => {
         )
     }
   return (
-    <div className='w-1/2 flex flex-col h-full bg-white rounded text-black px-[10%] py-32'>
+    <div className='w-1/2 flex flex-col h-full bg-white rounded text-black px-[5%] py-[7%]'>
         <div className='font-semibold text-2xl text-gray-500 mb-6'>
             Order Summary
         </div>
