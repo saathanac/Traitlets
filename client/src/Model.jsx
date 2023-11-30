@@ -4,7 +4,8 @@ Command: npx gltfjsx@6.2.15 ../public/model2.glb
 */
 import React, { useEffect, useState, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
-import {PlaneGeometry, MeshStandardMaterial, TextureLoader, CanvasTexture} from 'three';
+import {PlaneGeometry, MeshStandardMaterial, TextureLoader} from 'three';
+import { useSelectionContext } from './context/SelectionContext.jsx';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb');
@@ -14,7 +15,6 @@ export default function Model(props) {
   const [cylinderMaterialKey, setCylinderMaterialKey] = useState(null);
 
   const transparentImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
-  
   const engraving = new TextureLoader().load(transparentImage);
   let engravingGeometry = new PlaneGeometry(20, 20);
   let engravingPosition = [0, 0, 1.3];
@@ -24,28 +24,6 @@ export default function Model(props) {
     transparent: true,
   });
 
-  var textCanvas = document.createElement("canvas");
-  textCanvas.width = 700;
-  textCanvas.height = 400;
-  var ctx = textCanvas.getContext("2d");
-  var textTexture = new CanvasTexture(textCanvas);
-  ctx.font = "160px roboto";
-
-  const centerText = (ctx, text, x, y) => {
-    const textWidth = ctx.measureText(text).width;
-    const textHeight = parseInt(ctx.font); // 
-
-    // Adjust the starting point to center the text
-    const centerX = x - textWidth / 2;
-    const centerY = y + textHeight / 4; 
-
-    ctx.fillText(text, centerX, centerY);
-  };
-
-  const text = "Alex Rules";
-  ctx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Clear previous content
-  centerText(ctx, text, textCanvas.width / 2, textCanvas.height / 2);
-  engravingMaterial.map = textTexture;
   const meshRef = useRef(null);
 
   const updateStickerMaterial = (image) => {
@@ -106,11 +84,7 @@ export default function Model(props) {
       }
     }
   };
-  const centerpieceMaterial = new MeshStandardMaterial({
-    color: '#EDBB99',
-    roughness: 0.5,
-  });
-  nodes.Cylinder.material = centerpieceMaterial
+
   const loadDefaultMaterial = () => {
     const texture = new TextureLoader().load(braceletDetails.braceletDetails['base-beads']['image'] || '');
     const sideBead = new MeshStandardMaterial({
