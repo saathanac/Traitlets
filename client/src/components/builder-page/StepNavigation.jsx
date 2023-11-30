@@ -18,7 +18,7 @@ function StepNavigation() {
         navigate('/checkout')
     }
     return (
-        <div className={activeStep != 2 && 'mb-16'}> 
+        <div className={activeStep != 2 && 'mb-16 relative'}> 
             <React.Fragment>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'20%', margin:'auto' }} >
                     <Button
@@ -43,7 +43,13 @@ function StepNavigation() {
                         } 
                     </Button>
                 </Box>
+                {activeStep == 3 && 
+                    <div className='text-gray-600 justify-end absolute top-8 right-16 flex '>
+                        <a href="https://cladright.com/how-to-measure-wrist-size/" target="_blank" rel="noopener noreferrer" className='text-gray-400 hover:text-gray-500 text-sm underline font-medium'> Size guide</a>
+                    </div>
+                }
             </React.Fragment>
+            
         </div>
         )
     }
