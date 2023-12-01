@@ -13,15 +13,9 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 function SelectionsDisplay() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide } = useSelectionContext()
+    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide, handleEngravingChange, engravingText } = useSelectionContext()
     const [value, setValue] = useState(0);
     const [type, setType] = useState('icon');
-    const [engravingText, setEngravingText] = useState('');
-
-    const handleEngravingChange = (event) => {
-        setEngravingText(event.target.value);
-        addCenterpieceToOrder(event.target.value)
-    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -115,7 +109,7 @@ function SelectionsDisplay() {
                                 noValidate
                                 autoComplete="off"
                             >
-                                <TextField id="standard-basic" label="Engraving Text ..." variant="standard" value={engravingText} onChange={handleEngravingChange}/>
+                                <TextField id="standard-basic" label="Engraving Text ..." variant="standard" value={engravingText} onChange={(event) => {handleEngravingChange(event)}}/>
                             </Box>
                         </div>}
                         

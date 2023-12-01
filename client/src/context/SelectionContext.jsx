@@ -148,10 +148,31 @@ const SelectionContextProvider = ({ children }) => {
     });
   };
 
+  const [engravingText, setEngravingText] = useState('');
+
+    const handleEngravingChange = (event) => {
+      if(event.target.value.length < 6){
+        setEngravingText(event.target.value);
+        addCenterpieceToOrder(event.target.value)
+      }
+      else{
+        toast.warn("Max 5 characters", {
+          position: "top-right",
+          autoClose: 3000, // Close the toast after 3 seconds
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    };
+
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
-      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted}}>
+      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted
+      , handleEngravingChange, engravingText}}>
       {children}
     </SelectionContext.Provider>
   );
