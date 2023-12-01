@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function HomeBraceletImage() {
   return (
-    <div className="bg-white justify-end max-w-4xl">
+    <div className="bg-white py-20 justify-end max-w-4xl">
       <div style={{ marginLeft: '8rem' }}>
         <img
           src="./images/three_traitlets_homepage.png"
