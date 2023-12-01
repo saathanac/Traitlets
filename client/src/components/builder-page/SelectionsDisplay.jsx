@@ -13,9 +13,8 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 function SelectionsDisplay() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide, handleEngravingChange, engravingText } = useSelectionContext()
+    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide, handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType } = useSelectionContext()
     const [value, setValue] = useState(0);
-    const [type, setType] = useState('icon');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -33,38 +32,7 @@ function SelectionsDisplay() {
         setType(event.target.value);
     };
 
-    const addCenterpieceToOrder = (val) => {
-        console.log("value", val)
-
-        let details = {
-            'type': null,
-            'design': null,
-            'image': null
-        }
-
-        if(type == 'none'){
-            details.type = 'none'
-            details.design = 'none'
-            details.image = 'none'
-        }
-        else if(type == 'icon'){
-            details.type = 'icon'
-            details.design = val.name
-            details.image = val.image
-        }
-        else if(type == 'text'){
-            details.type = 'text'
-            details.design = val.name
-            details.image = val.image
-        }
-        else{
-            console.log('error with centerpiece selection')
-        }
-        console.log("details", details)
-
-        addToOrder(val, centerpieceSide, details)
-    }
-
+   
   return (
     <div className='bg-white absolute bottom-0 w-full h-[42%]'>
         <StepNavigation/>

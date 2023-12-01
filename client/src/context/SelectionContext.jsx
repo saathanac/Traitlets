@@ -22,6 +22,7 @@ const SelectionContextProvider = ({ children }) => {
   const [options, setOptions] = useState([])
   const [selectionTitle, setSelectionTitle] = useState('Base Beads')
   const [centerpieceSide, setCenterpieceSide] = useState('front-side')
+  const [type, setType] = useState('icon');
 
   const steps = ['base-beads', 'accessory-beads', 'centerpiece', 'size'];
   const [braceletDetails, setBraceletDetails] = useState({
@@ -168,11 +169,43 @@ const SelectionContextProvider = ({ children }) => {
       }
     };
 
+    const addCenterpieceToOrder = (val) => {
+      console.log("value", val)
+
+      let details = {
+          'type': null,
+          'design': null,
+          'image': null
+      }
+
+      if(type == 'none'){
+          details.type = 'none'
+          details.design = 'none'
+          details.image = 'none'
+      }
+      else if(type == 'icon'){
+          details.type = 'icon'
+          details.design = val.name
+          details.image = val.image
+      }
+      else if(type == 'text'){
+          details.type = 'text'
+          details.design = val.name
+          details.image = val.image
+      }
+      else{
+          console.log('error with centerpiece selection')
+      }
+      console.log("details", details)
+
+      addToOrder(val, centerpieceSide, details)
+  }
+
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
       handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted
-      , handleEngravingChange, engravingText}}>
+      , handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType }}>
       {children}
     </SelectionContext.Provider>
   );
