@@ -9,7 +9,7 @@ import { useSelectionContext } from './context/SelectionContext';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb');
-  const { braceletDetails, centerpieceSide, steps, engravingText } = useSelectionContext();
+  const { braceletDetails, centerpieceSide, steps, engravingText, backEngravingText } = useSelectionContext();
   const [materialBaseKey, setMaterialKey] = useState(null);
   const [materialAccessoryKey, setMaterialAccessoryKey] = useState(null);
   const [cylinderMaterialKey, setCylinderMaterialKey] = useState(null);
@@ -26,8 +26,8 @@ export default function Model(props) {
   });
 
   var textCanvas = document.createElement("canvas");
-  textCanvas.width = 500;
-  textCanvas.height = 400;
+  textCanvas.width = 400;
+  textCanvas.height = 300;
   var ctx = textCanvas.getContext("2d");
   var textTexture = new CanvasTexture(textCanvas);
   ctx.font = "120px inter";
@@ -44,7 +44,13 @@ export default function Model(props) {
   };
 
   ctx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Clear previous content
-  centerText(ctx, engravingText, textCanvas.width / 2, textCanvas.height / 2);
+  if(centerpieceSide == 'front-side'){
+    centerText(ctx, engravingText, textCanvas.width / 2, textCanvas.height / 2);
+  }
+  else if(centerpieceSide == 'back-side'){
+    centerText(ctx, backEngravingText, textCanvas.width / 2, textCanvas.height / 2);
+  }
+  // centerText(ctx, engravingText, textCanvas.width / 2, textCanvas.height / 2);
   engravingMaterial.map = textTexture;
   const meshRef = useRef(null);
 
@@ -106,8 +112,10 @@ export default function Model(props) {
       }
     }
   };
+  const centerTexture = new TextureLoader().load('./images/dark-wood.jpeg');
   const centerpieceMaterial = new MeshStandardMaterial({
-    color: '#EDBB99',
+    map: centerTexture,
+    // color: '#EDBB99',
     roughness: 0.5,
   });
   nodes.Cylinder.material = centerpieceMaterial

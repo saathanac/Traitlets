@@ -23,6 +23,8 @@ const SelectionContextProvider = ({ children }) => {
   const [selectionTitle, setSelectionTitle] = useState('Base Beads')
   const [centerpieceSide, setCenterpieceSide] = useState('front-side')
   const [type, setType] = useState('icon');
+  const [engravingText, setEngravingText] = useState('');
+  const [backEngravingText, setBackEngravingText] = useState('')
 
   const steps = ['base-beads', 'accessory-beads', 'centerpiece', 'size'];
   const [braceletDetails, setBraceletDetails] = useState({
@@ -59,11 +61,14 @@ const SelectionContextProvider = ({ children }) => {
         else{
           tempBraceletInfo.braceletDetails[property] = name;
         }
-      } else if (side && design && activeStep === 2) {
+      } 
+      else if (side && design && activeStep === 2) {
         // Make sure the centerpiece object exists before updating
         tempBraceletInfo.braceletDetails.centerpiece = tempBraceletInfo.braceletDetails.centerpiece || {};
         tempBraceletInfo.braceletDetails.centerpiece[side] = design;
-      } else {
+        console.log(tempBraceletInfo.braceletDetails.centerpiece[side])
+      } 
+      else {
         console.error("Error with addToOrder");
       }
   
@@ -108,6 +113,22 @@ const SelectionContextProvider = ({ children }) => {
   const handleNext = () => {
     if(stepCompleted()){
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      if(activeStep == 2 ){
+        if(braceletDetails.braceletDetails['centerpiece']['front-side']['type'] == 'text'){
+          let frontDetails = {}
+          frontDetails.type = 'text'
+          frontDetails.design = engravingText
+          frontDetails.image = null
+          addToOrder('centrepiece', 'front-side', frontDetails)
+        }
+        if(braceletDetails.braceletDetails['centerpiece']['back-side']['type'] == 'text'){
+          let backDetails = {}
+          backDetails.type = 'text'
+          backDetails.design = backEngravingText
+          backDetails.image = ''
+          addToOrder('centrepiece', 'back-side', backDetails)
+        }
+      }
     }
     else{
       toast.warn("Please make a selection to proceed", {
@@ -134,30 +155,33 @@ const SelectionContextProvider = ({ children }) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const [engravingText, setEngravingText] = useState('');
-
     const handleEngravingChange = (event) => {
-      if(event.target.value.length < 6){
+      if(event.target.value.length < 8){
         setEngravingText(event.target.value);
         addCenterpieceToOrder(event.target.value)
+        console.log(event.target.value)
       }
       else{
-        toast.warn("Max 5 characters", {
+        toast.warn("Max 7 characters", {
+          position: "top-right",
+          autoClose: 3000, // Close the toast after 3 seconds
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    };
+
+    const handleBackEngravingChange = (event) => {
+      if(event.target.value.length < 8){
+        setBackEngravingText(event.target.value);
+        addCenterpieceToOrder(event.target.value)
+        console.log(event.target.value)
+      }
+      else{
+        toast.warn("Max 7 characters", {
           position: "top-right",
           autoClose: 3000, // Close the toast after 3 seconds
           hideProgressBar: true,
@@ -170,7 +194,6 @@ const SelectionContextProvider = ({ children }) => {
     };
 
     const addCenterpieceToOrder = (val) => {
-      console.log("value", val)
 
       let details = {
           'type': null,
@@ -190,8 +213,8 @@ const SelectionContextProvider = ({ children }) => {
       }
       else if(type == 'text'){
           details.type = 'text'
-          details.design = val.name
-          details.image = val.image
+          details.design = (centerpieceSide == 'front-side' ? engravingText : backEngravingText)
+          details.image = null
       }
       else{
           console.log('error with centerpiece selection')
@@ -204,8 +227,8 @@ const SelectionContextProvider = ({ children }) => {
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
-      handleSkip, handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted
-      , handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType }}>
+       handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted
+      , handleEngravingChange, engravingText, setEngravingText, addCenterpieceToOrder, type, setType, backEngravingText, setBackEngravingText, handleBackEngravingChange }}>
       {children}
     </SelectionContext.Provider>
   );

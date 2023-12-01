@@ -13,17 +13,22 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 function SelectionsDisplay() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide, handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType } = useSelectionContext()
+    const { activeStep, braceletDetails, options, addToOrder, centerpieceSide, 
+            setCenterpieceSide, handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType, setEngravingText, backEngravingText, setBackEngravingText, handleBackEngravingChange } = useSelectionContext()
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        let side = 'front-side'
+        
         switch(newValue){
             case 0:
-                setCenterpieceSide('front-side')
+                side = 'front-side'
+                setCenterpieceSide(side)
             break;
             case 1:
-                setCenterpieceSide('back-side')
+                side = 'back-side'
+                setCenterpieceSide(side)
             break;
         }
     };
@@ -60,7 +65,7 @@ function SelectionsDisplay() {
                                 id="demo-simple-select"
                                 value={type}
                                 label="Engraving"
-                                onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder()}
+                                onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder(type)}
                                 >
                                     <MenuItem value={'icon'}>Icon</MenuItem>
                                     <MenuItem value={'text'}>Text</MenuItem>
@@ -77,7 +82,11 @@ function SelectionsDisplay() {
                                 noValidate
                                 autoComplete="off"
                             >
-                                <TextField id="standard-basic" label="Engraving Text ..." variant="standard" value={engravingText} onChange={(event) => {handleEngravingChange(event)}}/>
+                                {value == 0 ?
+                                    <TextField id="standard-basic" label="Engraving Text " variant="standard" value={engravingText} onChange={(event) => {handleEngravingChange(event, value)}}/>
+                                    :
+                                    <TextField id="standard-basic" label="Engraving Text " variant="standard" value={backEngravingText} onChange={(event) => {handleBackEngravingChange(event, value)}}/>
+                                }
                             </Box>
                         </div>}
                         
