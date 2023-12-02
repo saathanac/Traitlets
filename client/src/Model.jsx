@@ -5,11 +5,11 @@ Command: npx gltfjsx@6.2.15 ../public/model2.glb
 import React, { useEffect, useState, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import {PlaneGeometry, MeshStandardMaterial, TextureLoader, CanvasTexture} from 'three';
-import { useSelectionContext } from './context/SelectionContext.jsx';
+import { useSelectionContext } from './context/SelectionContext';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb');
-  const { braceletDetails, centerpieceSide, steps } = useSelectionContext();
+  const { braceletDetails, centerpieceSide, steps, engravingText, backEngravingText } = useSelectionContext();
   const [materialBaseKey, setMaterialKey] = useState(null);
   const [materialAccessoryKey, setMaterialAccessoryKey] = useState(null);
   const [cylinderMaterialKey, setCylinderMaterialKey] = useState(null);
@@ -19,18 +19,18 @@ export default function Model(props) {
   const engraving = new TextureLoader().load(transparentImage);
   let engravingGeometry = new PlaneGeometry(20, 20);
   let engravingPosition = [0, 0, 1.3];
-  let engravingScale = 0.015;
+  let engravingScale = 0.02;
   let engravingMaterial = new MeshStandardMaterial({
     map: engraving,
     transparent: true,
   });
 
   var textCanvas = document.createElement("canvas");
-  textCanvas.width = 700;
-  textCanvas.height = 400;
+  textCanvas.width = 400;
+  textCanvas.height = 300;
   var ctx = textCanvas.getContext("2d");
   var textTexture = new CanvasTexture(textCanvas);
-  ctx.font = "160px roboto";
+  ctx.font = "120px inter";
 
   const centerText = (ctx, text, x, y) => {
     const textWidth = ctx.measureText(text).width;
@@ -43,9 +43,14 @@ export default function Model(props) {
     ctx.fillText(text, centerX, centerY);
   };
 
-  const text = "Alex Rules";
   ctx.clearRect(0, 0, textCanvas.width, textCanvas.height); // Clear previous content
-  centerText(ctx, text, textCanvas.width / 2, textCanvas.height / 2);
+  if(centerpieceSide == 'front-side'){
+    centerText(ctx, engravingText, textCanvas.width / 2, textCanvas.height / 2);
+  }
+  else if(centerpieceSide == 'back-side'){
+    centerText(ctx, backEngravingText, textCanvas.width / 2, textCanvas.height / 2);
+  }
+  // centerText(ctx, engravingText, textCanvas.width / 2, textCanvas.height / 2);
   engravingMaterial.map = textTexture;
   const meshRef = useRef(null);
 
@@ -107,8 +112,10 @@ export default function Model(props) {
       }
     }
   };
+  const centerTexture = new TextureLoader().load('./images/dark-wood.jpeg');
   const centerpieceMaterial = new MeshStandardMaterial({
-    color: '#EDBB99',
+    map: centerTexture,
+    // color: '#EDBB99',
     roughness: 0.5,
   });
   nodes.Cylinder.material = centerpieceMaterial

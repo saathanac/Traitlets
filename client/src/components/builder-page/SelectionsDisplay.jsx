@@ -13,24 +13,22 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 function SelectionsDisplay() {
-    const { activeStep, isStepOptional, isStepSkipped, handleBack, handleNext, steps, selectionTitle, options, addToOrder, centerpieceSide, setCenterpieceSide } = useSelectionContext()
+    const { activeStep, braceletDetails, options, addToOrder, centerpieceSide, 
+            setCenterpieceSide, handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType, setEngravingText, backEngravingText, setBackEngravingText, handleBackEngravingChange } = useSelectionContext()
     const [value, setValue] = useState(0);
-    const [type, setType] = useState('icon');
-    const [engravingText, setEngravingText] = useState('');
-
-    const handleEngravingChange = (event) => {
-        setEngravingText(event.target.value);
-        addCenterpieceToOrder(event.target.value)
-    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        let side = 'front-side'
+        
         switch(newValue){
             case 0:
-                setCenterpieceSide('front-side')
+                side = 'front-side'
+                setCenterpieceSide(side)
             break;
             case 1:
-                setCenterpieceSide('back-side')
+                side = 'back-side'
+                setCenterpieceSide(side)
             break;
         }
     };
@@ -39,38 +37,7 @@ function SelectionsDisplay() {
         setType(event.target.value);
     };
 
-    const addCenterpieceToOrder = (val) => {
-        console.log("value", val)
-
-        let details = {
-            'type': null,
-            'design': null,
-            'image': null
-        }
-
-        if(type == 'none'){
-            details.type = 'none'
-            details.design = 'none'
-            details.image = 'none'
-        }
-        else if(type == 'icon'){
-            details.type = 'icon'
-            details.design = val.name
-            details.image = val.image
-        }
-        else if(type == 'text'){
-            details.type = 'text'
-            details.design = val.name
-            details.image = val.image
-        }
-        else{
-            console.log('error with centerpiece selection')
-        }
-        console.log("details", details)
-
-        addToOrder(val, centerpieceSide, details)
-    }
-
+   
   return (
     <div className='bg-white absolute bottom-0 w-full h-[42%]'>
         <StepNavigation/>
@@ -98,7 +65,7 @@ function SelectionsDisplay() {
                                 id="demo-simple-select"
                                 value={type}
                                 label="Engraving"
-                                onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder()}
+                                onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder(type)}
                                 >
                                     <MenuItem value={'icon'}>Icon</MenuItem>
                                     <MenuItem value={'text'}>Text</MenuItem>
@@ -115,7 +82,11 @@ function SelectionsDisplay() {
                                 noValidate
                                 autoComplete="off"
                             >
-                                <TextField id="standard-basic" label="Engraving Text ..." variant="standard" value={engravingText} onChange={handleEngravingChange}/>
+                                {value == 0 ?
+                                    <TextField id="standard-basic" label="Engraving Text " variant="standard" value={engravingText} onChange={(event) => {handleEngravingChange(event, value)}}/>
+                                    :
+                                    <TextField id="standard-basic" label="Engraving Text " variant="standard" value={backEngravingText} onChange={(event) => {handleBackEngravingChange(event, value)}}/>
+                                }
                             </Box>
                         </div>}
                         
