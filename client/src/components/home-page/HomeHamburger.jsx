@@ -19,7 +19,9 @@ export default function HomeHamburger() {
   };
   return (
     <div ref={ref}>
-      <Hamburger toggled={isOpen} size={20} toggle={setOpen} />
+      <div>
+        <Hamburger toggled={isOpen} size={20} toggle={setOpen} />
+      </div>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -27,7 +29,7 @@ export default function HomeHamburger() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="left-0 shadow-4xl right-0 top-[6.3rem] p-3 pt-0 bg-gray-800 border-b border-b-white/20"
+            className="left-0 fixed right-0 p-3 pt-3 bg-gray-800 border-b border-b-white/20"
           >
             <ul className="grid gap-2">
               {routes.map((route, idx) => {
@@ -44,7 +46,7 @@ export default function HomeHamburger() {
                       delay: 0.1 + idx / 10,
                     }}
                     key={route.title}
-                    className="w-full p-[0.01rem] rounded-lg bg-gradient-to-tr from-neutral-800 via-neutral-950 to-neutral-700"
+                    className="w-full p-[0.01rem] rounded"
                   >
                     <a
                       onClick={() => handleNavigation(route.href)}

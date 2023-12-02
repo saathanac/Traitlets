@@ -4,7 +4,7 @@ import HomeLogo from './HomeLogo';
 
 const HomeNavbar = () => {
   return (
-    <nav className="bg-gray-800 p-4 text-white flex items-center h-30">
+    <nav className="fixed w-full bg-gray-800 p-4 text-white flex items-center h-30">
       <div className="flex-grow">
         <HomeLogo/>
       </div>
