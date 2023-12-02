@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv environment variables file
+.env
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# npm
+npm-debug.log
+*.swp
+
+# Testing
+coverage/
+
+# Build process
+dist/
