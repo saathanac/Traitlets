@@ -20,7 +20,7 @@ const PaymentDetails = () => {
   }, []);
 
   const appearance = {
-    theme: 'stripe',
+    theme: 'flat',
   };
   const options = {
     clientSecret,
@@ -28,7 +28,7 @@ const PaymentDetails = () => {
   };
 
   return (
-    <div className='w-1/2 absolute top-1/2 left-1/2 -translate-x-1/12 -translate-y-1/4'>
+    <div className='w-1/2 absolute top-1/2 left-1/2 translate-x-[20%] -translate-y-1/2'>
         {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <StripeCheckoutCard/>

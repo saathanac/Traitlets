@@ -4,6 +4,7 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import "../../stripe.css"
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -12,6 +13,7 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     if (!stripe) {
@@ -60,6 +62,7 @@ export default function CheckoutForm() {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:5173",
+        receipt_email: email,
       },
     });
 
@@ -83,9 +86,16 @@ export default function CheckoutForm() {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
+      <input
+        id="email"
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email address"
+      />
 
-      <PaymentElement id="payment-element" options={paymentElementOptions} className="border border-solid border-transparent border-[2rem]"/>
-      <button disabled={isLoading || !stripe || !elements} id="submit" className="ml-[2rem]">
+      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>
