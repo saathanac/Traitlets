@@ -7,7 +7,7 @@ const OrderSummary = () => {
     const braceletDetails = JSON.parse(storedDetails);
 
     const capitalizeFirstLetter = (str) => {
-        return str?.charAt(0).toUpperCase() + str.slice(1);
+        return str?.charAt(0).toUpperCase() + str?.slice(1);
       };
 
     const displayElement = (check, title, set) => {
@@ -28,7 +28,7 @@ const OrderSummary = () => {
             <div className='ml-8 text-sm text-gray-700 mt-2'>
                 <p className='text-base font-medium text-gray-800 mb-1'>Customized Traitlet</p>
                 {displayElement(braceletDetails.braceletDetails['base-beads'], 'Base bead', braceletDetails.braceletDetails['base-beads']['name'])}
-                {displayElement(braceletDetails.braceletDetails['accessory-beads'], 'Accessory bead', braceletDetails.braceletDetails['accessory-beads']['name'])}
+                {displayElement(braceletDetails.braceletDetails['accessory-beads'], 'Accessory bead', braceletDetails.braceletDetails['accessory-beads'] ? braceletDetails.braceletDetails['accessory-beads']['name'] : 'None')}
                 {displayElement(braceletDetails.braceletDetails['centerpiece']['front-side']['type'], 'Front Centrepiece', `${capitalizeFirstLetter(braceletDetails.braceletDetails['centerpiece']['front-side']['type'])} - ${braceletDetails.braceletDetails['centerpiece']['front-side']['design']}`)}
                 {displayElement(braceletDetails.braceletDetails['centerpiece']['back-side']['type'], 'Back Centrepiece', `${capitalizeFirstLetter(braceletDetails.braceletDetails['centerpiece']['back-side']['type'])} - ${braceletDetails.braceletDetails['centerpiece']['back-side']['design']}`)}
                 {displayElement(braceletDetails.braceletDetails['size'], 'Size', braceletDetails.braceletDetails['size'])}
