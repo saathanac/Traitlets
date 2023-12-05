@@ -4,9 +4,13 @@ import HomeBraceletImage from './HomeBraceletImage';
 
 function HomeContent() {
   return (
-    <div style={{ display: 'flex' }}>
-      <HomeWelcome style={{ flex: '1' }} />
-      <HomeBraceletImage style={{ flex: '1' }} />
+    <div className="flex-col flex lg:flex-row  w-full">
+      <div className="lg:w-1/2 w-full bg-white">
+        <HomeWelcome />
+      </div>
+      <div className="lg:w-1/2 h-full bg-white">
+        <HomeBraceletImage />
+      </div>
     </div>
   );
 }
