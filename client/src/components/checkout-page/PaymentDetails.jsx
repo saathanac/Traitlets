@@ -28,12 +28,14 @@ const PaymentDetails = () => {
   };
 
   return (
-    <div className='w-1/2 absolute top-1/2 left-1/2 -translate-x-1/12 -translate-y-1/4'>
+    <div className='flex items-center justify-center h-full'>
+      <div className='lg:w-[40rem] mt-[0.5rem]'>
         {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <StripeCheckoutCard/>
-        </Elements>
-      )}
+          <Elements options={options} stripe={stripePromise}>
+            <StripeCheckoutCard/>
+          </Elements>
+        )}
+      </div>
     </div>
   )
 }
