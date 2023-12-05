@@ -51,7 +51,7 @@ export default function HomeHamburger() {
                     <a
                       onClick={() => handleNavigation(route.href)}
                       className={
-                        "flex items-center justify-between w-full p-5 rounded-lg bg-neutral-950"
+                        "flex items-center justify-between w-full p-4 rounded-lg bg-neutral-950 text-white"
                       }
                       href={route.href}
                     >
