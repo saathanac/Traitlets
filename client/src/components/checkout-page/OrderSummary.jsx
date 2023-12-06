@@ -37,11 +37,11 @@ const OrderSummary = () => {
         )
     }
   return (
-    <div className='w-1/2 flex flex-col h-full bg-white rounded text-black px-[5%] py-[7%]'>
+    <div className='flex flex-col h-full bg-white rounded text-black px-[5%] py-[7%]'>
         <div className='font-semibold text-2xl text-gray-500 mb-6'>
             Order Summary
         </div>
-        <div className='flex flex-row'>
+        <div className='flex-col flex lg:flex-row'>
             <div className='h-48 w-60 border-2 rounded-lg bg-gray-50'>
                 <CanvasModel/>
             </div>

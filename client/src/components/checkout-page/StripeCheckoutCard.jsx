@@ -4,6 +4,7 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import {AddressElement} from '@stripe/react-stripe-js';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -82,16 +83,24 @@ export default function CheckoutForm() {
   }
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-
-      <PaymentElement id="payment-element" options={paymentElementOptions} className="border border-solid border-transparent border-[2rem]"/>
-      <button disabled={isLoading || !stripe || !elements} id="submit" className="ml-[2rem]">
-        <span id="button-text">
+    <div className="border border-solid border-transparent border-[2rem]">
+    <AddressElement options={{
+  mode: "shipping",
+  autocomplete: {
+    mode: "google_maps_api",
+    apiKey: "{YOUR_GOOGLE_MAPS_API_KEY}",
+  },
+}} />
+    <form id="payment-form" onSubmit={handleSubmit} >
+      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <button disabled={isLoading || !stripe || !elements} id="submit" className="mt-[1rem] border border-solid ">
+        <span id="button-text" >
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>
       </button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>
+    </div>
   );
 }
