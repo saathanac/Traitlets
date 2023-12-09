@@ -5,7 +5,8 @@ const corsOptions = {
     origin: 'http://localhost:5173',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-  
+const { getGoogleSheetClient, readGoogleSheet, writeGoogleSheet } = require('./googlesheets.js');
+
 // Enable CORS for the specified origin
 app.use(cors(corsOptions));
 
@@ -45,7 +46,6 @@ app.post("/create-payment-intent", async (req, res) => {
   // Set productId based on the value of doubleSided
   const productId = isDoubleSided ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
 
-  // Create a PaymentIntent with the product amount and currency
   try {
     const productPrice = await calculateOrderAmount(productId);
 
@@ -57,11 +57,17 @@ app.post("/create-payment-intent", async (req, res) => {
       },
     });
 
+    // Append order data to Google Spreadsheet
+    const orderData = [new Date().toISOString(), productId, productPrice];
+    const googleSheetClient = await getGoogleSheetClient();
+    await writeGoogleSheet(googleSheetClient, orderData);
+    console.log("after write")
     // Include the product price in the response
     res.send({
       clientSecret: paymentIntent.client_secret,
       productPrice: productPrice,
     });
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
