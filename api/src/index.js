@@ -4,11 +4,10 @@ const cors = require('cors');
 const corsOptions = {
     origin: 'http://localhost:5173',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  };
+};
   
-  // Enable CORS for the specified origin
-  app.use(cors(corsOptions));
-  
+// Enable CORS for the specified origin
+app.use(cors(corsOptions));
 
 // This is your test secret API key.
 const stripe = require("stripe")('sk_test_51OJ2wsGskqTr9F1NKaMipU6Qdz8XXS4PdGRXnJczdC8S9SpDc2rY3dJ7YoKEXCB4wmlmxdqSENrJXXRu4incOzc500QnmMaTZ2');
@@ -16,30 +15,56 @@ const stripe = require("stripe")('sk_test_51OJ2wsGskqTr9F1NKaMipU6Qdz8XXS4PdGRXn
 app.use(express.static("public"));
 app.use(express.json());
 
-const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
+// Function to retrieve the product price from Stripe using the product ID
+const getProductPrice = async (productId) => {
+  try {
+    const product = await stripe.products.retrieve(productId);
+    const price = await stripe.prices.list({ product: product.id, limit: 1 });
+    return price.data[0].unit_amount;
+  } catch (error) {
+    console.error("Error retrieving product price:", error);
+    throw new Error("Error retrieving product price");
+  }
+};
+
+const calculateOrderAmount = async (productId) => {
+  try {
+    // Replace this constant with a dynamic calculation of the order's amount
+    const productPrice = await getProductPrice(productId);
+    return productPrice;
+  } catch (error) {
+    console.error("Error calculating order amount:", error);
+    throw new Error("Error calculating order amount");
+  }
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
+  const { isDoubleSided } = req.body;
+  console.log(isDoubleSided)
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
-    currency: "cad",
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
+  // Set productId based on the value of doubleSided
+  const productId = isDoubleSided ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
+  // Create a PaymentIntent with the product amount and currency
+  try {
+    const productPrice = await calculateOrderAmount(productId);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: productPrice,
+      currency: "cad",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    // Include the product price in the response
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+      productPrice: productPrice,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
-
 
 app.listen(4242, () => console.log("Node server listening on port 4242!"));
