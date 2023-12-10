@@ -23,15 +23,6 @@ async function getGoogleSheetClient() {
     }
   }
 
-async function readGoogleSheet(googleSheetClient) {
-  const res = await googleSheetClient.spreadsheets.values.get({
-    spreadsheetId: sheetId,
-    range: `${tabName}!${range}`,
-  });
-
-  return res.data.values;
-}
-
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString(), data);
   try {

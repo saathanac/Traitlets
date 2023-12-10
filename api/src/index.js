@@ -5,7 +5,7 @@ const corsOptions = {
     origin: 'http://localhost:5173',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-const { getGoogleSheetClient, readGoogleSheet, writeGoogleSheet } = require('./googlesheets.js');
+const { getGoogleSheetClient, writeGoogleSheet } = require('./googlesheets.js');
 
 // Enable CORS for the specified origin
 app.use(cors(corsOptions));
