@@ -35,6 +35,7 @@ function SelectionsDisplay() {
     
     const handleChangeDesign = (event) => {
         setType(event.target.value);
+        addCenterpieceToOrder(event.target.value)
     };
 
    
@@ -65,7 +66,7 @@ function SelectionsDisplay() {
                                 id="demo-simple-select"
                                 value={type}
                                 label="Engraving"
-                                onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder(type)}
+                                onChange={handleChangeDesign}
                                 >
                                     <MenuItem value={'icon'}>Icon</MenuItem>
                                     <MenuItem value={'text'}>Text</MenuItem>
