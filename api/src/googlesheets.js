@@ -1,7 +1,6 @@
-// googlesheets.js
 const { google } = require('googleapis');
 
-const serviceAccountKeyFile = "/Users/alexcholmsky/Traitlets/api/src/traitlets-d6754b69ff60.json";
+const serviceAccountKeyFile = "src/traitlets-d6754b69ff60.json";
 const sheetId = '1M0AqJPS4JDaadtnTiBpMHJBbUufzj7Xtj495zfFe3OQ';
 const tabName = 'Orders';
 const range = 'A:E';
@@ -44,4 +43,4 @@ async function writeGoogleSheet(googleSheetClient, data) {
   console.log("After writing to Google Sheets:", new Date().toISOString(), data);
 }
 
-module.exports = { getGoogleSheetClient, readGoogleSheet, writeGoogleSheet };
+module.exports = { getGoogleSheetClient, writeGoogleSheet };

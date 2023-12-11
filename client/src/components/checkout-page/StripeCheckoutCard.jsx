@@ -82,14 +82,15 @@ export default function CheckoutForm() {
   }
 
   return (
-    <div className="border border-solid border-transparent border-[2rem]">
+    <div className="border-solid border-transparent border-[2rem]">
     <AddressElement options={{
-  mode: "shipping",
-  autocomplete: {
-    mode: "google_maps_api",
-    apiKey: "{YOUR_GOOGLE_MAPS_API_KEY}",
-  },
-}} />
+        mode: "shipping",
+        autocomplete: {
+          mode: "google_maps_api",
+          apiKey: "{YOUR_GOOGLE_MAPS_API_KEY}",
+        },
+      }} 
+    />
     <form id="payment-form" onSubmit={handleSubmit} >
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit" className="mt-[1rem] border border-solid ">
