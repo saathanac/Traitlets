@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const serviceAccountKeyFile = "src/traitlets-d6754b69ff60.json";
 const sheetId = '1M0AqJPS4JDaadtnTiBpMHJBbUufzj7Xtj495zfFe3OQ';
 const tabName = 'Orders';
-const range = 'A:E';
+const range = 'A:v';
 
 async function getGoogleSheetClient() {
     try {
@@ -22,7 +22,7 @@ async function getGoogleSheetClient() {
   }
 
 async function writeGoogleSheet(googleSheetClient, data) {
-  console.log("Before writing to Google Sheets:", new Date().toISOString(), data);
+  console.log("Before writing to Google Sheets:", new Date().toISOString());
   try {
     await googleSheetClient.spreadsheets.values.append({
       spreadsheetId: sheetId,
@@ -39,7 +39,7 @@ async function writeGoogleSheet(googleSheetClient, data) {
     console.error("Error appending data to Google Sheets:", error);
   }
   
-  console.log("After writing to Google Sheets:", new Date().toISOString(), data);
+  console.log("After writing to Google Sheets:", new Date().toISOString());
 }
 
 module.exports = { getGoogleSheetClient, writeGoogleSheet }

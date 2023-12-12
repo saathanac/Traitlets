@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 const corsOptions = {
     origin: 'http://localhost:5173',
@@ -16,11 +17,11 @@ const endpointSecret = 'whsec_fdb6b73f6ab336adeb5b77496282631bd11e35997dac6c75f7
 
 app.use(express.static("public"));
 
+let braceletDetails
+
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
     let event = request.body;
-    console.log(event)
-    // Only verify the event if you have an endpoint secret defined.
-    // Otherwise use the basic event deserialized with JSON.parse
+
     if (endpointSecret) {
       // Get the signature sent by Stripe
       const signature = request.headers['stripe-signature'];
@@ -35,13 +36,12 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
         return response.sendStatus(400);
       }
     }
-  
-    // Handle the event
+
     switch (event.type) {
-      case 'charge.succeeded':
+      case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
-        console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
-        updateGoogleSheet('123456', paymentIntent.amount, paymentIntent);
+        // console.log(paymentIntent);
+        updateGoogleSheet('not needed', paymentIntent.amount, braceletDetails || null, paymentIntent)
         break;
       case 'payment_intent.created':
         console.log(`PaymentIntent creation successful!`);
@@ -55,15 +55,51 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     response.send();
   });
 
-  async function updateGoogleSheet(productId, productPrice, paymentIntent) {
+  async function updateGoogleSheet(productId, productPrice, braceletDetails, paymentIntent) {
     // Append order data to Google Spreadsheet
-    const orderData = [new Date().toISOString(), productId, productPrice];
+    let orderData
+    if(braceletDetails){
+        const orderId = uuidv4();
+        const productId = isDoubleSided(braceletDetails) ? 'Double Design' : 'Single Design'
+        orderData = [
+            new Date().toISOString(), 
+            productId, 
+            (productPrice / 100),
+            paymentIntent.id,
+            orderId,
+            paymentIntent.shipping.name,
+            'customerEmail',
+            paymentIntent.shipping.phone,
+            paymentIntent.shipping.address.city,
+            paymentIntent.shipping.address.country,
+            paymentIntent.shipping.address.line1,
+            paymentIntent.shipping.address.line2 || '',
+            paymentIntent.shipping.address.postal_code,
+            paymentIntent.shipping.address.state,
+            braceletDetails['base-beads']['name'],
+            braceletDetails['base-beads']['name'] || '',
+            braceletDetails['centerpiece']['front-side']['type'] || '',
+            braceletDetails['centerpiece']['front-side']['design'] || '',
+            braceletDetails['centerpiece']['back-side']['type'] || '',
+            braceletDetails['centerpiece']['back-side']['design'] || '',
+            braceletDetails['size'],
+        ];
+    }
+    else{
+        console.error("braceletDetails not received")
+    }
+    // orderData = [new Date().toISOString(), productId, productPrice];
     const googleSheetClient = await getGoogleSheetClient();
     await writeGoogleSheet(googleSheetClient, orderData);
     console.log("after write")
   }
 
 app.use(express.json());
+
+
+const isDoubleSided = (braceletDetails) => {
+    return braceletDetails['centerpiece']['front-side']['type'] && braceletDetails['centerpiece']['back-side']['type'];
+}
 
 // Function to retrieve the product price from Stripe using the product ID
 const getProductPrice = async (productId) => {
@@ -77,15 +113,6 @@ const getProductPrice = async (productId) => {
   }
 };
 
-// async function updateGoogleSheet(productId, productPrice, paymentIntent) {
-//     // Append order data to Google Spreadsheet
-//     const orderData = [new Date().toISOString(), productId, productPrice];
-//     const googleSheetClient = await getGoogleSheetClient();
-//     await writeGoogleSheet(googleSheetClient, orderData);
-//     console.log("after write")
-//     // Include the product price in the response
-// }
-
 const calculateOrderAmount = async (productId) => {
   try {
     // Replace this constant with a dynamic calculation of the order's amount
@@ -98,13 +125,10 @@ const calculateOrderAmount = async (productId) => {
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { isDoubleSided } = req.body;
-  console.log("BOOOO")
-
-  // Include the product price in the response
+  braceletDetails = req.body.braceletDetails.braceletDetails
 
   // Set productId based on the value of doubleSided
-  const productId = isDoubleSided ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
+  const productId = isDoubleSided(braceletDetails) ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
 
   try {
     const productPrice = await calculateOrderAmount(productId);
@@ -114,7 +138,7 @@ app.post("/create-payment-intent", async (req, res) => {
       currency: "cad",
       automatic_payment_methods: {
         enabled: true,
-      },
+      }
     });
 
     res.send({
