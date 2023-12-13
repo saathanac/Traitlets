@@ -42,7 +42,7 @@ function SelectionsDisplay() {
     <div className='bg-white absolute bottom-0 w-full h-[42%]'>
         <StepNavigation/>
         <div class="center-container  flex justify-center mb-10">
-            <div class="overflow-container w-fit-content max-w-full overflow-auto flex gap-4">
+            <div class="overflow-container w-fit-content max-w-full overflow-auto flex gap-8 border border-transparent border-opacity-50 border-8">
                 {activeStep != 2 ? 
                     options.map((optionObj) => {
                         return(
