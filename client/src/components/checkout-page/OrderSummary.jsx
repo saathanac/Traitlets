@@ -5,6 +5,8 @@ import { useSelectionContext } from '../../context/SelectionContext'
 const OrderSummary = () => {
     const storedDetails = localStorage.getItem('braceletDetails');
     const braceletDetails = JSON.parse(storedDetails);
+    const {setActiveStep}= useSelectionContext()
+    setActiveStep(5)
 
     const capitalizeFirstLetter = (str) => {
         return str?.charAt(0).toUpperCase() + str?.slice(1);

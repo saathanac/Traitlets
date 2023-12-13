@@ -9,7 +9,7 @@ import { useSelectionContext } from './context/SelectionContext';
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/model2.glb');
-  const { braceletDetails, centerpieceSide, steps, engravingText, backEngravingText } = useSelectionContext();
+  const { braceletDetails, centerpieceSide, activeStep, engravingText, backEngravingText, type } = useSelectionContext();
   const [materialBaseKey, setMaterialKey] = useState(null);
   const [materialAccessoryKey, setMaterialAccessoryKey] = useState(null);
   const [cylinderMaterialKey, setCylinderMaterialKey] = useState(null);
@@ -139,6 +139,7 @@ export default function Model(props) {
   };
 
   useEffect(() => {
+    console.log(activeStep)
     if (braceletDetails?.braceletDetails?.['base-beads']) {
       loadMainBeadMaterial();
     }
@@ -148,20 +149,16 @@ export default function Model(props) {
     } else if (braceletDetails.braceletDetails['base-beads']) {
       loadDefaultMaterial();
     }
-
-    if (centerpieceSide == 'front-side' && braceletDetails?.braceletDetails?.['centerpiece']?.['front-side']?.['image']) {
-      console.log(centerpieceSide, 'frontside')
+    if (activeStep >= 2 && centerpieceSide == 'front-side' && braceletDetails?.braceletDetails?.['centerpiece']?.['front-side']?.['image']) {
       updateStickerMaterial(braceletDetails.braceletDetails['centerpiece']['front-side']['image']);
     }
-    else if (centerpieceSide == 'back-side' && braceletDetails?.braceletDetails?.['centerpiece']?.['back-side']?.['image']) {
-      console.log(centerpieceSide, 'backside')
+    else if (activeStep >= 2 && centerpieceSide == 'back-side' && braceletDetails?.braceletDetails?.['centerpiece']?.['back-side']?.['image']) {
       updateStickerMaterial(braceletDetails.braceletDetails['centerpiece']['back-side']['image']);
     }
-    else{
-      console.log('else called')
-      console.log(centerpieceSide, braceletDetails?.braceletDetails?.['centerpiece']?.['back-side']?.['image'], braceletDetails?.braceletDetails?.['centerpiece']?.['front-side']?.['image'])
+    else if (type == 'none'){
+      updateStickerMaterial(transparentImage);
     }
-  }, [braceletDetails, centerpieceSide, steps]);
+  }, [braceletDetails, centerpieceSide, activeStep]);
 
   return (
     <group {...props} dispose={null}>
