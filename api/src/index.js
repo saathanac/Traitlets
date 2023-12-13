@@ -68,7 +68,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
             paymentIntent.id,
             orderId,
             paymentIntent.shipping.name,
-            'customerEmail',
+            paymentIntent.receipt_email || '',
             paymentIntent.shipping.phone,
             paymentIntent.shipping.address.city,
             paymentIntent.shipping.address.country,

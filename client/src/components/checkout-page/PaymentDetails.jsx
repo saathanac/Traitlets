@@ -21,7 +21,7 @@ const PaymentDetails = () => {
     fetch("http://localhost:4242/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isDoubleSided })
+      body: JSON.stringify({ braceletDetails })
     })
       .then((res) => res.json())
       .then((data) => {
