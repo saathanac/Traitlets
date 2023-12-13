@@ -18,9 +18,9 @@ function StepNavigation() {
         navigate('/checkout')
     }
     return (
-        <div className={activeStep != 2 && 'mb-16 relative'}> 
+        <div className={`md:mb-10 ${activeStep != 2 && 'mb-16'} relative md:w-[20%] w-[80%]`}> 
             <React.Fragment>
-                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'20%', margin:'auto' }} >
+                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'100%', margin:'auto' }} >
                     <Button
                     color="inherit"
                     disabled={activeStep === 0}
@@ -38,13 +38,13 @@ function StepNavigation() {
                         disabled={activeStep === steps.length - 1 && !braceletDetails.braceletDetails['size']}
                     >
                         {activeStep === steps.length - 1 
-                            ? <><ShoppingCartIcon className='mr-2 '/> Checkout</>
+                            ? <><ShoppingCartIcon className='mr-2 '/> <p className='md:visible invisible'>Checkout</p></>
                             : <KeyboardArrowRight /> 
                         } 
                     </Button>
                 </Box>
                 {activeStep == 3 && 
-                    <div className='text-gray-600 justify-end absolute top-8 right-16 flex '>
+                    <div className='text-gray-600 justify-end absolute md:top-8 right-16 flex '>
                         <a href="https://cladright.com/how-to-measure-wrist-size/" target="_blank" rel="noopener noreferrer" className='text-gray-400 hover:text-gray-500 text-sm underline font-medium'> Size guide</a>
                     </div>
                 }

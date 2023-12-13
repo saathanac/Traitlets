@@ -2,7 +2,7 @@ import React from 'react';
 import SelectionsDisplay from './builder-page/SelectionsDisplay';
 import TopDisplay from './builder-page/TopDisplay';
 
-function HomePage() {
+function BuilderPage() {
   return (
     <div className='absolute bg-gray-200 h-[100%] w-full'>
       <TopDisplay/>
@@ -11,4 +11,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default BuilderPage;

@@ -40,68 +40,81 @@ function SelectionsDisplay() {
    
   return (
     <div className='bg-white absolute bottom-0 w-full h-[42%]'>
-        <StepNavigation/>
-        <div class="center-container  flex justify-center mb-10">
-            <div class="overflow-container w-fit-content max-w-full overflow-auto flex gap-4">
+        <div className='w-full flex justify-center'>
+            <StepNavigation/>
+        </div>
+        <div className="flex justify-center mb-10">
+            <div className={`overflow-container ${activeStep != 2 && 'overflow-auto '} flex gap-4`}>
                 {activeStep != 2 ? 
                     options.map((optionObj) => {
                         return(
-                            <div className='flex-shrink-0 border border-transparent border-opacity-50 border-8' onClick={(event) => {event.stopPropagation(); addToOrder(optionObj)}}>
+                            <div className='flex-shrink-0 border-transparent border-opacity-50 border-8' onClick={(event) => {event.stopPropagation(); addToOrder(optionObj)}}>
                                 <OptionButton opt={optionObj} step={activeStep}/>
                             </div>
                         )
                     })
                 : 
-                    <div>
-                        <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example">
-                            <Tab label="front-side" sx={{  width:'420px' }}/>
-                            <Tab label="back-side" sx={{ width:'420px' }}/>
-                        </Tabs>
-                        <div className='flex'>
-                            <Box sx={{minWidth: 120, maxWidth: 120, marginTop: 5.5, marginRight:4 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Engraving</InputLabel>
-                                    <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={type}
-                                    label="Engraving"
-                                    onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder(type)}
+                    <div className='max-w-[100%]'>
+                        <div className='md:visible invisible flex justify-center'>
+                            <Tabs value={value} onChange={handleChange}>
+                                <Tab label="front-side" sx={{  width:'420px' }}/>
+                                <Tab label="back-side" sx={{ width:'420px' }}/>
+                            </Tabs>
+                        </div>
+                        <div className='md:hidden visible flex justify-center'>
+                            <Tabs value={value} onChange={handleChange}>
+                                <Tab label="front-side" sx={{  width:'200px' }}/>
+                                <Tab label="back-side" sx={{ width:'200px' }}/>
+                            </Tabs>
+                        </div>
+                        <div className='flex justify-center'>
+                            <div className='flex md:flex-row justify-center '>
+                                <Box sx={{minWidth: 120, maxWidth: 120, marginTop: 5.5, marginRight:4 }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Engraving</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={type}
+                                            label="Engraving"
+                                            onChange={type != 'none' ? handleChangeDesign : addCenterpieceToOrder(type)}
+                                        >
+                                            <MenuItem value={'icon'}>Icon</MenuItem>
+                                            <MenuItem value={'text'}>Text</MenuItem>
+                                            <MenuItem value={'none'}>None</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Box> 
+                                {type == 'text' && <div className='ml-8 mt-4 md:max-w-[100%] max-w-xs'>
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& > :not(style)': { m: 1, width: '100%' },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
                                     >
-                                        <MenuItem value={'icon'}>Icon</MenuItem>
-                                        <MenuItem value={'text'}>Text</MenuItem>
-                                        <MenuItem value={'none'}>None</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Box> 
-                            {type == 'text' && <div className='ml-8 mt-4'>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& > :not(style)': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    {value == 0 ?
-                                        <TextField id="standard-basic" label="Engraving Text " variant="standard" value={engravingText} onChange={(event) => {handleEngravingChange(event, value)}}/>
-                                        :
-                                        <TextField id="standard-basic" label="Engraving Text " variant="standard" value={backEngravingText} onChange={(event) => {handleBackEngravingChange(event, value)}}/>
-                                    }
-                                </Box>
-                            </div>}
+                                        {value == 0 ?
+                                            <TextField id="standard-basic" label="Engraving Text " variant="standard" value={engravingText} onChange={(event) => {handleEngravingChange(event, value)}}/>
+                                            :
+                                            <TextField id="standard-basic" label="Engraving Text " variant="standard" value={backEngravingText} onChange={(event) => {handleBackEngravingChange(event, value)}}/>
+                                        }
+                                    </Box>
+                                </div>}
                             
-                            {/* fix this */}
-                            {type == 'icon' && <div className='flex gap-8 mt-12'>
-                                {options.map((optionObj) => {
-                                    return(
-                                        <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj);}}>
-                                            <OptionButton opt={optionObj} side={value}/>
-                                        </div>
-                                    )
-                                })}
-
-                            </div>}
+                                {/* fix this */}
+                                {type == 'icon' && 
+                                    <div className='overflow-container overflow-auto flex md:gap-4 gap-2 lg:max-w-6xl md:max-w-4xl max-w-[7%] mt-10'>
+                                        {options.map((optionObj) => {
+                                            return(
+                                                <div className='flex-shrink-0 border-transparent border-opacity-50 border-8' onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj);}}>
+                                                    <OptionButton opt={optionObj} side={value}/>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
