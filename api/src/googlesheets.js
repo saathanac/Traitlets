@@ -44,4 +44,4 @@ async function writeGoogleSheet(googleSheetClient, data) {
   console.log("After writing to Google Sheets:", new Date().toISOString(), data);
 }
 
-module.exports = { getGoogleSheetClient, readGoogleSheet, writeGoogleSheet };
+module.exports = { getGoogleSheetClient, writeGoogleSheet };
