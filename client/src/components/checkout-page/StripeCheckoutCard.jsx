@@ -5,6 +5,7 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import {AddressElement} from '@stripe/react-stripe-js';
+import './styles/checkoutPage.css';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -12,6 +13,7 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     if (!stripe) {
@@ -60,6 +62,7 @@ export default function CheckoutForm() {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:5173",
+        receipt_email: email,
       },
     });
 
@@ -82,24 +85,33 @@ export default function CheckoutForm() {
   }
 
   return (
-    <div className="border border-solid border-transparent border-[2rem]">
-    <AddressElement options={{
-  mode: "shipping",
-  autocomplete: {
-    mode: "google_maps_api",
-    apiKey: "{YOUR_GOOGLE_MAPS_API_KEY}",
-  },
-}} />
-    <form id="payment-form" onSubmit={handleSubmit} >
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit" className="mt-[1rem] border border-solid ">
-        <span id="button-text" >
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+    <div className="border-solid border-transparent border-[2rem]">
+      <form id="payment-form" onSubmit={handleSubmit} >
+        <label className="text-gray-600">Email address</label>
+        <input
+          id="email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter email address"
+        />
+        <AddressElement options={{
+            mode: "shipping",
+            autocomplete: {
+              mode: "google_maps_api",
+              apiKey: "{YOUR_GOOGLE_MAPS_API_KEY}",
+            },
+          }} 
+        />
+        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <button disabled={isLoading || !stripe || !elements} id="submit" className="mt-[1rem] border border-solid ">
+          <span id="button-text" >
+            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          </span>
+        </button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
     </div>
   );
 }

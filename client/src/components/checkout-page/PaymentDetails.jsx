@@ -2,7 +2,6 @@ import StripeCheckoutCard from "./StripeCheckoutCard";
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { SelectionContext, useSelectionContext, SelectionContextProvider } from '../../context/SelectionContext';
 
 const stripePromise = loadStripe("pk_test_51OJ2wsGskqTr9F1NjgcuzNzEdq0vIeUrXDOd2jGiNRDGjIptNszWXS9gzCDOiKF4fzwEahWo1Ite81udQAl0Chvq00wkO8srl4");
 
@@ -11,6 +10,7 @@ const PaymentDetails = () => {
   const storedDetails = localStorage.getItem('braceletDetails');
   const braceletDetails = JSON.parse(storedDetails);
   console.log("payment details", braceletDetails)
+
   useEffect(() => {
     // Set productId conditionally based on braceletDetails
     const isDoubleSided = 
@@ -21,7 +21,7 @@ const PaymentDetails = () => {
     fetch("http://localhost:4242/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isDoubleSided })
+      body: JSON.stringify({ braceletDetails })
     })
       .then((res) => res.json())
       .then((data) => {
