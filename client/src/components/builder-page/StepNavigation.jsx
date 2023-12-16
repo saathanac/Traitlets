@@ -19,7 +19,7 @@ function StepNavigation() {
     }
     return (
         <div className=' md:w-30 w-80'>
-            <div className={`md:mb-10 ${activeStep != 2 && 'mb-16'} flex justify-content-center align-items-center`}> 
+            <div className={`md:mb-10 ${activeStep != 2 && 'mb-10'} flex justify-center align-center`}> 
                 <React.Fragment>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width:'100%', margin:'auto' }} >
                         <Button
@@ -49,7 +49,7 @@ function StepNavigation() {
             </div>
             
             {activeStep == 3 && 
-                        <div className='text-gray-600 justify-end absolute md:top-8 right-16 flex '>
+                        <div className='text-gray-600 md:absolute md:top-8 lg:mb-0 mb-10 right-16 flex justify-center align-center'>
                             <a href="https://cladright.com/how-to-measure-wrist-size/" target="_blank" rel="noopener noreferrer" className='text-gray-400 hover:text-gray-500 text-sm underline font-medium'> Size guide</a>
                         </div>
                     }

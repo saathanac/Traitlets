@@ -54,8 +54,8 @@ function SelectionsDisplay() {
                         )
                     })
                 : 
-                    <div className='max-w-[100%]'>
-                        <div className='md:visible invisible flex justify-center'>
+                    <div className='w-full'>
+                        <div className='md:visible hidden flex justify-center'>
                             <Tabs value={value} onChange={handleChange}>
                                 <Tab label="front-side" sx={{  width:'420px' }}/>
                                 <Tab label="back-side" sx={{ width:'420px' }}/>
