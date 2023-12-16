@@ -65,7 +65,7 @@ function SelectionsDisplay() {
                             </Tabs>
                         </div>
                         <div className='flex justify-center md:flex-row flex-col '>
-                        <Box sx={{minWidth: 120, maxWidth: 120, marginTop: 5.5, marginRight: isSmallScreen ? 0 : 4 }}>
+                        <Box className="flex justify-center md:w-1/6 mt-10 mr-0 lg:mr-4">
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Engraving</InputLabel>
                                 <Select
