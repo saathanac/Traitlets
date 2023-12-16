@@ -44,7 +44,7 @@ function SelectionsDisplay() {
             <StepNavigation/>
         </div>
         <div className="flex justify-center mb-10">
-            <div className={`overflow-container ${activeStep != 2 && 'overflow-auto '} flex gap-4`}>
+            <div className={`overflow-container ${activeStep != 2 && 'overflow-auto '} flex gap-8`}>
                 {activeStep != 2 ? 
                     options.map((optionObj) => {
                         return(
