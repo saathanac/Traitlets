@@ -143,7 +143,7 @@ app.post("/create-payment-intent", async (req, res) => {
 
     res.send({
         clientSecret: paymentIntent.client_secret,
-        productPrice: productPrice,
+        productPrice: productPrice/100,
       });
 
   } catch (error) {
