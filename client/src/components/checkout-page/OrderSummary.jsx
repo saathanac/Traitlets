@@ -5,7 +5,7 @@ import { useSelectionContext } from '../../context/SelectionContext'
 const OrderSummary = () => {
     const storedDetails = localStorage.getItem('braceletDetails');
     const braceletDetails = JSON.parse(storedDetails);
-    const {setActiveStep}= useSelectionContext()
+    const {setActiveStep, checkoutPrice}= useSelectionContext()
     setActiveStep(5)
 
     const capitalizeFirstLetter = (str) => {
@@ -64,7 +64,7 @@ const OrderSummary = () => {
             <hr className='mt-4'/>
             <div className='py-4 px-4 flex justify-between'>
                 <p>Total</p>
-                <p>$25.00</p>
+                <p>${((checkoutPrice || 0) + 2).toFixed(2)}</p>
             </div>
             <hr className='border'/>
         </div>

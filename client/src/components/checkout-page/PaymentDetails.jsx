@@ -2,10 +2,13 @@ import StripeCheckoutCard from "./StripeCheckoutCard";
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import { SelectionContext, useSelectionContext, SelectionContextProvider } from '../../context/SelectionContext';
 
 const stripePromise = loadStripe("pk_test_51OJ2wsGskqTr9F1NjgcuzNzEdq0vIeUrXDOd2jGiNRDGjIptNszWXS9gzCDOiKF4fzwEahWo1Ite81udQAl0Chvq00wkO8srl4");
 
 const PaymentDetails = () => {
+  const { setCheckoutPrice } = useSelectionContext()
+
   const [clientSecret, setClientSecret] = useState("");
   const storedDetails = localStorage.getItem('braceletDetails');
   const braceletDetails = JSON.parse(storedDetails);
@@ -26,7 +29,7 @@ const PaymentDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret);
-        console.log("Product Price:", data.productPrice);
+        setCheckoutPrice(data.productPrice);
       });
   }, []);
 
