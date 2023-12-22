@@ -37,6 +37,7 @@ function SelectionsDisplay() {
     
     const handleChangeDesign = (event) => {
         setType(event.target.value);
+        addCenterpieceToOrder(event.target.value)
     };
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
