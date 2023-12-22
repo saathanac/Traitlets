@@ -65,7 +65,7 @@ function SelectionsDisplay() {
                             </Tabs>
                         </div>
                         <div className='flex justify-center md:flex-row flex-col '>
-                        <Box className="flex justify-center md:w-1/6 mt-10 mr-0 lg:mr-4">
+                        <Box className="flex justify-center md:w-1/6 mt-10 mr-0 lg:mr-4 px-2">
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Engraving</InputLabel>
                                 <Select
@@ -99,7 +99,7 @@ function SelectionsDisplay() {
                         </div>}
                         
                         {/* fix this */}
-                        {type == 'icon' && <div className='flex gap-8 mt-12 overflow-auto'>
+                        {type == 'icon' && <div className={`flex gap-8 mt-12 overflow-auto ${ !isSmallScreen && 'max-w-[60%]'}`}>
                             {options.map((optionObj) => {
                                 return(
                                     <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj);}}>
