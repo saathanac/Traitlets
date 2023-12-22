@@ -1,17 +1,21 @@
 import { useClickAway } from "react-use";
-import { useRef } from "react";
-import { useState } from "react";
+import { useState, useEffect , useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Squash as Hamburger } from "hamburger-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { routes } from "./routes.ts";
 
 export default function HomeHamburger() {
   const [isOpen, setOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState("");
   const ref = useRef(null);
   const navigate = useNavigate();
 
   useClickAway(ref, () => setOpen(false));
+  
+  useEffect(() => {
+    setCurrentPage(location.pathname);
+  }, [location]);
 
   const handleNavigation = (route) => {
     navigate(route);
@@ -29,7 +33,9 @@ export default function HomeHamburger() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="left-0 fixed right-0 p-3 pt-3 bg-gray-800 border-b border-b-white/20"
+            className={`left-0 fixed right-0 p-3 pt-3 border-b border-b-white/20 ${
+              currentPage === "/" ? "bg-gray-800" : "bg-gray-300"
+            }`}
           >
             <ul className="grid gap-2">
               {routes.map((route, idx) => {
@@ -51,7 +57,7 @@ export default function HomeHamburger() {
                     <a
                       onClick={() => handleNavigation(route.href)}
                       className={
-                        "flex items-center justify-between w-full p-4 rounded-lg bg-neutral-950 text-white"
+                        `flex items-center justify-between w-full p-4 rounded-lg ${currentPage === "/" ? 'bg-neutral-950 text-white' : 'bg-white text-neutral-800'}`
                       }
                       href={route.href}
                     >

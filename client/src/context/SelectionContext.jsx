@@ -25,6 +25,7 @@ const SelectionContextProvider = ({ children }) => {
   const [type, setType] = useState('icon');
   const [engravingText, setEngravingText] = useState('');
   const [backEngravingText, setBackEngravingText] = useState('')
+  const [checkoutPrice, setCheckoutPrice] = useState(null);
 
   const steps = ['base-beads', 'accessory-beads', 'centerpiece', 'size'];
   const [braceletDetails, setBraceletDetails] = useState({
@@ -227,8 +228,9 @@ const SelectionContextProvider = ({ children }) => {
 
   return (
     <SelectionContext.Provider value={{ state, dispatch, activeStep, setActiveStep, skipped, setSkipped, isStepOptional, isStepSkipped,  
-       handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted
-      , handleEngravingChange, engravingText, setEngravingText, addCenterpieceToOrder, type, setType, backEngravingText, setBackEngravingText, handleBackEngravingChange }}>
+       handleBack, handleNext, steps, options, selectionTitle, addToOrder, braceletDetails, centerpieceSide, setCenterpieceSide, stepCompleted,
+       handleEngravingChange, engravingText, setEngravingText, addCenterpieceToOrder, type, setType, backEngravingText, setBackEngravingText, handleBackEngravingChange,
+       checkoutPrice, setCheckoutPrice }}>
       {children}
     </SelectionContext.Provider>
   );
