@@ -30,7 +30,7 @@ export default function Model(props) {
   textCanvas.height = 300;
   var ctx = textCanvas.getContext("2d");
   var textTexture = new CanvasTexture(textCanvas);
-  ctx.font = "120px inter";
+  ctx.font = "100px inter";
 
   const centerText = (ctx, text, x, y) => {
     const textWidth = ctx.measureText(text).width;
