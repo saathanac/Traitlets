@@ -98,7 +98,7 @@ app.use(express.json());
 
 
 const isDoubleSided = (braceletDetails) => {
-    return braceletDetails['centerpiece']['front-side']['type'] && braceletDetails['centerpiece']['back-side']['type'];
+    return braceletDetails['centerpiece']['front-side']['design'] && braceletDetails['centerpiece']['back-side']['design'];
 }
 
 // Function to retrieve the product price from Stripe using the product ID
