@@ -16,6 +16,14 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     // Set productId conditionally based on braceletDetails
+    fetch("https://traitlets-be.onrender.com/sheets-test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ braceletDetails })
+    })      
+      .then((res) => res.json())
+
+    console.log('fetched')
     const isDoubleSided = 
     braceletDetails.braceletDetails['centerpiece']['front-side']['type'] && braceletDetails.braceletDetails['centerpiece']['back-side']['type']
         ? true
