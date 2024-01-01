@@ -19,7 +19,7 @@ export default function Model(props) {
   const engraving = new TextureLoader().load(transparentImage);
   let engravingGeometry = new PlaneGeometry(20, 20);
   let engravingPosition = [0, 0, 1.3];
-  let engravingScale = 0.02;
+  let engravingScale = 0.015;
   let engravingMaterial = new MeshStandardMaterial({
     map: engraving,
     transparent: true,
@@ -30,7 +30,7 @@ export default function Model(props) {
   textCanvas.height = 300;
   var ctx = textCanvas.getContext("2d");
   var textTexture = new CanvasTexture(textCanvas);
-  ctx.font = "120px inter";
+  ctx.font = "100px inter";
 
   const centerText = (ctx, text, x, y) => {
     const textWidth = ctx.measureText(text).width;

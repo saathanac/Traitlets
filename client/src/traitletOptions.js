@@ -69,34 +69,99 @@ const traitletOptions = {
     "centerpiece": [
         //may require specific image sizes
         {
-            "id":"heart",
-            "name":"Heart",
-            "image":"./images/heart.svg",
-        },
-        {
-            "id":"infinity-heart",
-            "name":"Infinity Heart",
-            "image":"./images/infinity_heart.png",
-        },
-        {
-            "id":"heartbeat",
-            "name":"Heartbeat",
-            "image":"./images/heartbeat_transparent.png",
-        },
-        {
-            "id":"soccer",
-            "name":"Soccer Ball",
-            "image":"./images/soccer-icon.png",
+            "id":"ballet_shoes",
+            "name":"Ballet Shoes",
+            "image":"./images/unedited-traitlet-icons/ballet_shoes.png",
         },
         {
             "id":"basketball",
             "name":"Basketball",
-            "image":"./images/basketball_transparent.png",
+            "image":"./images/unedited-traitlet-icons/Basketball.png",
+        },
+        {
+            "id":"cross_skis",
+            "name":"Cross Skis",
+            "image":"./images/unedited-traitlet-icons/Cross_skis.png",
+        },
+        {
+            "id":"cross",
+            "name":"Cross",
+            "image":"./images/unedited-traitlet-icons/Cross.png",
+        },
+        {
+            "id":"euphonium",
+            "name":"Euphonium",
+            "image":"./images/unedited-traitlet-icons/Euphonium.png",
         },
         {
             "id":"football",
             "name":"Football",
-            "image":"./images/football_transparent.png",
+            "image":"./images/unedited-traitlet-icons/Football.png",
+        },
+        {
+            "id":"guitar",
+            "name":"Guitar",
+            "image":"./images/unedited-traitlet-icons/Guitar.png",
+        },
+        {
+            "id":"solid_hear",
+            "name":"Solid Heart",
+            "image":"./images/unedited-traitlet-icons/Heart_solid.png",
+        },     
+        {
+            "id":"heartbeat",
+            "name":"Heartbeat",
+            "image":"./images/unedited-traitlet-icons/Heartbeat.png",
+        },
+        {
+            "id":"infinity_heart",
+            "name":"Infinity Heart",
+            "image":"./images/unedited-traitlet-icons/Infinity_heart.png",
+        },
+        {
+            "id":"music_notes",
+            "name":"Music Notes",
+            "image":"./images/unedited-traitlet-icons/Music_notes.png",
+        },
+        {
+            "id":"penguin_scarf",
+            "name":"Penguin Scarf",
+            "image":"./images/unedited-traitlet-icons/penguin_scarf.png",
+        },
+        {
+            "id":"snowboard",
+            "name":"Snowboard",
+            "image":"./images/unedited-traitlet-icons/snowboard.png",
+        },
+        {
+            "id":"soccer",
+            "name":"Soccer Ball",
+            "image":"./images/unedited-traitlet-icons/soccer_ball.png",
+        },
+        {
+            "id":"spread_love",
+            "name":"Spread Love",
+            "image":"./images/unedited-traitlet-icons/spread_love.png",
+        },
+        {
+            "id":"traitlet logo",
+            "name":"Traitlet Logo",
+            "image":"./images/unedited-traitlet-icons/traitlets_logo.png",
+        },
+        {
+            "id":"trebleclef",
+            "name":"Trebleclef",
+            "image":"./images/unedited-traitlet-icons/Trebleclef.png",
+        },
+        {
+            "id":"trombone",
+            "name":"Trombone",
+            "image":"./images/unedited-traitlet-icons/Trombone.png",
+        },
+        {
+            "id":"trumpet",
+            "name":"Trumpet",
+            "image":"./images/unedited-traitlet-icons/Trumpet.png",
         },
     ],
     "size": [

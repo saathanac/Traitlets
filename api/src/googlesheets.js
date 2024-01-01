@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
-const serviceAccountKeyFile = "src/traitlets-d6754b69ff60.json";
-const sheetId = '1M0AqJPS4JDaadtnTiBpMHJBbUufzj7Xtj495zfFe3OQ';
+const serviceAccountKeyFile = "src/traitlets-database-key.json";
+const sheetId = process.env.GOOGLE_SHEETS_ID;
 const tabName = 'Orders';
 const range = 'A:v';
 
