@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 require('dotenv').config();
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://traitlets-fe.onrender.com/'],
+  origin: ['http://localhost:5173', 'https://traitlets-fe.onrender.com'],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 const { getGoogleSheetClient, writeGoogleSheet } = require('./googlesheets.js');
