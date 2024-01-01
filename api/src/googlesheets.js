@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
-const serviceAccountKeyFile = "src/traitlets-database-key.json";
+// change to src/traitlets-database-key.json for local testing
+const serviceAccountKeyFile = "/etc/secrets/traitlets-database-key.json";
 const sheetId = process.env.GOOGLE_SHEETS_ID;
 const tabName = 'Orders';
 const range = 'A:v';
