@@ -13,9 +13,4 @@ export const routes = [
     href: "/builder",
     Icon: MdConstruction,
   },
-  {
-    title: "About",
-    href: "#",
-    Icon: PiChatCircleBold,
-  },
 ];
