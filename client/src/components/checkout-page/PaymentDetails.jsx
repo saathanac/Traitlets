@@ -16,7 +16,7 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     // Set productId conditionally based on braceletDetails
-    fetch("http://localhost:4242/sheets-test", {
+    fetch("https://traitlets-be.onrender.com/sheets-test", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ braceletDetails })
