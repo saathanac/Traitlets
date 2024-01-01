@@ -4,8 +4,8 @@ const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 require('dotenv').config();
 const corsOptions = {
-    origin: 'http://localhost:5173',
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: ['http://localhost:5173', 'https://traitlets-fe.onrender.com/'],
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 const { getGoogleSheetClient, writeGoogleSheet } = require('./googlesheets.js');
 
@@ -19,6 +19,66 @@ const endpointSecret = 'whsec_fdb6b73f6ab336adeb5b77496282631bd11e35997dac6c75f7
 app.use(express.static("public"));
 
 let braceletDetails
+
+// Define the endpoint for handling POST requests to '/sheets-test'
+app.post('/sheets-test', async (req, res) => {
+  // Assuming updateGoogleSheet is a synchronous function
+  braceletDetail = req.body?.braceletDetails?.braceletDetails
+
+ const braceletDetails = {
+    braceletDetails: {
+        "base-beads": {
+            id: "black-wood",
+            name: "Black Wood",
+            hex: "#241e1f",
+            image: "/images/black-wood.png"
+        },
+        "accessory-beads": {
+            id: "purple-cracked",
+            name: "Cracked Purple Glass",
+            hex: "#b259c2",
+            image: "./images/purple_cracked.png"
+        },
+        centerpiece: {
+            "front-side": {
+                type: "icon",
+                design: "Football",
+                image: "./images/unedited-traitlet-icons/Football.png"
+            },
+            "back-side": {
+                type: null,
+                design: null
+            }
+        },
+        size: "XL"
+    }
+};
+
+
+  const orderId = '123456';
+  const testPaymentIntent = {
+    id: 'pi_test_1234567890', // Replace with an actual ID
+    orderId: orderId,
+    shipping: {
+      name: 'John Doe',
+      phone: '+1234567890',
+      address: {
+        city: 'Test City',
+        country: 'Test Country',
+        line1: '123 Test Street',
+        line2: 'Apt 4B', // Optional
+        postal_code: '12345',
+        state: 'Test State',
+      }
+    },
+    receipt_email: 'john.doe@example.com', // Optional, replace with an actual email
+  };
+  console.log('updating sheet')
+  updateGoogleSheet('not needed', 12345, braceletDetails.braceletDetails || null, testPaymentIntent);
+
+  // Respond to the client
+  res.status(200).send('Update successful');
+});
 
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
     let event = request.body;
@@ -100,7 +160,7 @@ app.use(express.json());
 
 
 const isDoubleSided = (braceletDetails) => {
-    return braceletDetails['centerpiece']['front-side']['design'] && braceletDetails['centerpiece']['back-side']['design'];
+    return braceletDetails['centerpiece']?.['front-side']?.['design'] && braceletDetails['centerpiece']?.['back-side']?.['design'];
 }
 
 // Function to retrieve the product price from Stripe using the product ID
@@ -127,7 +187,7 @@ const calculateOrderAmount = async (productId) => {
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  braceletDetails = req.body.braceletDetails.braceletDetails
+  braceletDetails = req.body?.braceletDetails?.braceletDetails
 
   // Set productId based on the value of doubleSided
   const productId = isDoubleSided(braceletDetails) ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
