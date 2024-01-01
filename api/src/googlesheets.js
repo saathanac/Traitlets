@@ -23,7 +23,6 @@ async function getGoogleSheetClient() {
 
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString());
-  console.log(data)
   try {
     await googleSheetClient.spreadsheets.values.append({
       spreadsheetId: sheetId,

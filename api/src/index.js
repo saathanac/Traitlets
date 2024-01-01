@@ -89,8 +89,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     else{
         console.error("braceletDetails not received")
     }
-    // orderData = [new Date().toISOString(), productId, productPrice];
-    console.log("before")
+    console.log("before client")
     const googleSheetClient = await getGoogleSheetClient();
     console.log("client got")
     await writeGoogleSheet(googleSheetClient, orderData);
