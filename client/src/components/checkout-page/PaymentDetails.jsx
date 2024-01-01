@@ -21,7 +21,7 @@ const PaymentDetails = () => {
         ? true
         : false;
     // Create PaymentIntent with the dynamically determined productId
-    fetch("http://localhost:4242/create-payment-intent", {
+    fetch("https://traitlets-be.onrender.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ braceletDetails })
