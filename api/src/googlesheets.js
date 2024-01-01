@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
-const serviceAccountKeyFile = "src/traitlets-d6754b69ff60.json";
-const sheetId = '1M0AqJPS4JDaadtnTiBpMHJBbUufzj7Xtj495zfFe3OQ';
+const serviceAccountKeyFile = "src/traitlets-database-key.json";
+const sheetId = '1bvRNvOcRo6SxWJuHf_NQ_c30_r5ni-ZuVHeRnbWZomk';
 const tabName = 'Orders';
 const range = 'A:v';
 
@@ -23,6 +23,7 @@ async function getGoogleSheetClient() {
 
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString());
+  console.log(data)
   try {
     await googleSheetClient.spreadsheets.values.append({
       spreadsheetId: sheetId,

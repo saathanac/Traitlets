@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
+require('dotenv').config();
 const corsOptions = {
     origin: 'http://localhost:5173',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -89,7 +90,9 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
         console.error("braceletDetails not received")
     }
     // orderData = [new Date().toISOString(), productId, productPrice];
+    console.log("before")
     const googleSheetClient = await getGoogleSheetClient();
+    console.log("client got")
     await writeGoogleSheet(googleSheetClient, orderData);
     console.log("after write")
   }
