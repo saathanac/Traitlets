@@ -13,8 +13,8 @@ const { getGoogleSheetClient, writeGoogleSheet } = require('./googlesheets.js');
 app.use(cors(corsOptions));
 
 // This is your test secret API key.
-const stripe = require("stripe")('sk_test_51OJ2wsGskqTr9F1NKaMipU6Qdz8XXS4PdGRXnJczdC8S9SpDc2rY3dJ7YoKEXCB4wmlmxdqSENrJXXRu4incOzc500QnmMaTZ2');
-const endpointSecret = 'whsec_fdb6b73f6ab336adeb5b77496282631bd11e35997dac6c75f79826543ff8de16';
+const stripe = require("stripe")(process.env.STRIPE_SK);
+const endpointSecret = process.env.ENDPOINT_SECRET;
 
 app.use(express.static("public"));
 
@@ -86,6 +86,9 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     if (endpointSecret) {
       // Get the signature sent by Stripe
       const signature = request.headers['stripe-signature'];
+      console.log('Received signature:', signature);
+      console.log('Received request body:', request.body);
+
       try {
         event = stripe.webhooks.constructEvent(
           request.body,
@@ -113,7 +116,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     }
   
     // Return a 200 response to acknowledge receipt of the event
-    response.send();
+    response.json({received: true});
   });
 
   async function updateGoogleSheet(productId, productPrice, braceletDetails, paymentIntent) {
