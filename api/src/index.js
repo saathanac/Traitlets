@@ -20,75 +20,12 @@ app.use(express.static("public"));
 
 let braceletDetails
 
-// Define the endpoint for handling POST requests to '/sheets-test'
-app.post('/sheets-test', async (req, res) => {
-  // Assuming updateGoogleSheet is a synchronous function
-  braceletDetail = req.body?.braceletDetails?.braceletDetails
-
- const braceletDetails = {
-    braceletDetails: {
-        "base-beads": {
-            id: "black-wood",
-            name: "Black Wood",
-            hex: "#241e1f",
-            image: "/images/black-wood.png"
-        },
-        "accessory-beads": {
-            id: "purple-cracked",
-            name: "Cracked Purple Glass",
-            hex: "#b259c2",
-            image: "./images/purple_cracked.png"
-        },
-        centerpiece: {
-            "front-side": {
-                type: "icon",
-                design: "Football",
-                image: "./images/unedited-traitlet-icons/Football.png"
-            },
-            "back-side": {
-                type: null,
-                design: null
-            }
-        },
-        size: "XL"
-    }
-};
-
-
-  const orderId = '123456';
-  const testPaymentIntent = {
-    id: 'pi_test_1234567890', // Replace with an actual ID
-    orderId: orderId,
-    shipping: {
-      name: 'John Doe',
-      phone: '+1234567890',
-      address: {
-        city: 'Test City',
-        country: 'Test Country',
-        line1: '123 Test Street',
-        line2: 'Apt 4B', // Optional
-        postal_code: '12345',
-        state: 'Test State',
-      }
-    },
-    receipt_email: 'john.doe@example.com', // Optional, replace with an actual email
-  };
-  console.log('updating sheet')
-  updateGoogleSheet('not needed', 12345, braceletDetails.braceletDetails || null, testPaymentIntent);
-
-  // Respond to the client
-  res.status(200).send('Update successful');
-});
-
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
     let event = request.body;
 
     if (endpointSecret) {
       // Get the signature sent by Stripe
       const signature = request.headers['stripe-signature'];
-      console.log('Received signature:', signature);
-      console.log('Received request body:', request.body);
-
       try {
         event = stripe.webhooks.constructEvent(
           request.body,
