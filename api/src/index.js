@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
 const { v4: uuidv4 } = require('uuid');
-const cors = require('cors');
+const { getGoogleSheetClient, writeGoogleSheet } = require('./googlesheets.js');
 require('dotenv').config();
+
+const cors = require('cors');
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://traitlets-fe.onrender.com'],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-const { getGoogleSheetClient, writeGoogleSheet } = require('./googlesheets.js');
-
 // Enable CORS for the specified origin
 app.use(cors(corsOptions));
 
@@ -63,9 +63,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
 
   app.post("/create-payment-intent", async (req, res) => {
     braceletDetails = req.body?.braceletDetails?.braceletDetails
-  
-    // Set productId based on the value of doubleSided
-    const productId = isDoubleSided(braceletDetails) ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
+    // Single-sided product id
+    const productId = "prod_P7HcQj0aZcDqIC";
   
     try {
       const productPrice = await calculateOrderAmount(productId);
@@ -93,7 +92,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     let orderData
     if(braceletDetails){
         const orderId = uuidv4();
-        const productId = isDoubleSided(braceletDetails) ? 'Double Design' : 'Single Design'
+        const productId = 'Single Design'
         orderData = [
             new Date().toISOString(), 
             productId, 
@@ -130,11 +129,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   }
 
 app.use(express.json());
-
-
-const isDoubleSided = (braceletDetails) => {
-    return braceletDetails['centerpiece']?.['front-side']?.['design'] && braceletDetails['centerpiece']?.['back-side']?.['design'];
-}
 
 // Function to retrieve the product price from Stripe using the product ID
 const getProductPrice = async (productId) => {
