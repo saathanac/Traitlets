@@ -4,7 +4,7 @@ import HomeContent from './home-page/HomeContent';
 
 function HomePage() {
   return (
-    <div className='absolute h-full w-full flex'>
+    <div className='absolute h-full w-full flex fixed'>
       <HomeNavbar/>
       <HomeContent/>
     </div>

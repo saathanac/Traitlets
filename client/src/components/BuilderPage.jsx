@@ -5,7 +5,7 @@ import HomeHamburger from './home-page/HomeHamburger';
 
 function BuilderPage() {
   return (
-    <div className='absolute bg-gray-200 h-[100%] w-full'>
+    <div className='fixed absolute bg-gray-200 min-h-screen w-full'>
       <div className='absolute top-2 right-2 z-50'>
         <HomeHamburger/>
       </div>

@@ -43,7 +43,7 @@ function SelectionsDisplay() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
    
   return (
-    <div className='bg-white absolute bottom-0 w-full h-[42%]'>
+    <div className='bg-white absolute bottom-0 w-full lg:h-[42%]'>
         <div className='w-full flex justify-center'>
             <StepNavigation/>
         </div>

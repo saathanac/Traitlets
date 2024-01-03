@@ -5,7 +5,7 @@ import BuilderPage from '../components/BuilderPage'
 function Builder() {
   return(
     <>
-      <div className='w-full h-full'>
+      <div className='min-h-screen w-full h-full'>
         <BuilderPage/>
       </div>
     </>
