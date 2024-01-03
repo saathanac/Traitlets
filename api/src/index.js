@@ -46,8 +46,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
-        // console.log(paymentIntent);
-        updateGoogleSheet('not needed', paymentIntent.amount, braceletDetails || null, paymentIntent)
+        console.log("PaymentIntent succeeded");
+        updateGoogleSheet(paymentIntent.amount, braceletDetails || null, paymentIntent)
         break;
       case 'payment_intent.created':
         console.log(`PaymentIntent creation successful!`);
@@ -87,7 +87,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     }
   });
 
-  async function updateGoogleSheet(productId, productPrice, braceletDetails, paymentIntent) {
+  async function updateGoogleSheet(productPrice, braceletDetails, paymentIntent) {
     // Append order data to Google Spreadsheet
     let orderData
     if(braceletDetails){
