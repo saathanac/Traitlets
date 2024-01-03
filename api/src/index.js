@@ -23,6 +23,10 @@ let braceletDetails
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
     console.log("webhook called")
     let event = request.body;
+    console.log("prev BD", braceletDetails)
+
+    braceletDetails = request.body?.braceletDetails?.braceletDetails
+    console.log("post BD", braceletDetails)
 
     if (endpointSecret) {
       console.log("endpoint secret found")
@@ -63,6 +67,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
 
   app.post("/create-payment-intent", async (req, res) => {
     braceletDetails = req.body?.braceletDetails?.braceletDetails
+    console.log("intent BD", braceletDetails)
     // Single-sided product id
     const productId = process.env.PRODUCT_ID;
   
