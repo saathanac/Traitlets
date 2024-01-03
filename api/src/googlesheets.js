@@ -24,15 +24,10 @@ async function getGoogleSheetClient() {
 
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString());
-  console.log("All Environment Variables:", process.env);
+
   const sheetId = process.env.GOOGLE_SHEETS_ID;
   try {
-    if(sheetId){
-      console.log("sheet id", sheetId)
-    }
-    else{
-      console.log("no sheet id")
-    }
+    console.log(sheetId ? "sheet id found" : "no sheet id");
     await googleSheetClient.spreadsheets.values.append({
       spreadsheetId: sheetId,
       range: `${tabName}!${range}`,
