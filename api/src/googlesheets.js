@@ -24,10 +24,12 @@ async function getGoogleSheetClient() {
 
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString());
-
+  console.log("Data to be written:", data);
   const sheetId = process.env.GOOGLE_SHEETS_ID;
   try {
-    console.log(sheetId ? "sheet id found" : "no sheet id");
+    const response = console.log(sheetId ? "sheet id found" : "no sheet id");
+    console.log(" \n")
+
     await googleSheetClient.spreadsheets.values.append({
       spreadsheetId: sheetId,
       range: `${tabName}!${range}`,
@@ -38,6 +40,18 @@ async function writeGoogleSheet(googleSheetClient, data) {
         "values": [data],
       },
     });
+    console.log("REQUEST \n")
+    console.log({
+      spreadsheetId: sheetId,
+      range: `${tabName}!${range}`,
+      valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS',
+      resource: {
+        "majorDimension": "ROWS",
+        "values": [data],
+      },
+    });
+    console.log(response);
     console.log("Write operation successful!");
   } catch (error) {
     console.error("Error appending data to Google Sheets:", error);
