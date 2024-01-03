@@ -4,7 +4,7 @@ import HomeBraceletImage from './HomeBraceletImage';
 
 function HomeContent() {
   return (
-    <div className="flex-col flex lg:flex-row  w-full">
+    <div className="flex-col flex lg:flex-row w-full bg-white">
       <div className="lg:w-1/2 w-full bg-white">
         <HomeWelcome />
       </div>
