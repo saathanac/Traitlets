@@ -8,7 +8,7 @@ function TopDisplay() {
         <div className='px-[25%] py-12'>
             <Stepper/>
         </div>
-        <div style={{ height: '58%' }} className='absolute w-full'>
+        <div style={{ height: '50%' }} className='absolute w-full'>
           <CanvasModel/>
         </div>
     </div>
