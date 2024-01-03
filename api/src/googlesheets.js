@@ -4,6 +4,7 @@ const serviceAccountKeyFile = "/etc/secrets/traitlets-database-key.json";
 const sheetId = process.env.GOOGLE_SHEETS_ID;
 const tabName = 'Orders';
 const range = 'A:v';
+require('dotenv').config();
 
 async function getGoogleSheetClient() {
     try {
@@ -24,8 +25,8 @@ async function getGoogleSheetClient() {
 
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString());
+  console.log("All Environment Variables:", process.env);
   try {
-    console.log(sheetId)
     if(sheetId){
       console.log("sheet id", sheetId)
     }
