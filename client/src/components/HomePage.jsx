@@ -4,7 +4,7 @@ import HomeContent from './home-page/HomeContent';
 
 function HomePage() {
   return (
-    <div className='overflow-hidden absolute h-full w-full flex fixed'>
+    <div className='overflow-hidden absolute h-full w-full flex'>
       <HomeNavbar/>
       <HomeContent/>
     </div>
