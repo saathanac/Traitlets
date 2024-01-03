@@ -15,19 +15,16 @@ const PaymentDetails = () => {
   console.log("payment details", braceletDetails)
 
   useEffect(() => {
-    // Set productId conditionally based on braceletDetails
-    fetch("https://traitlets-be.onrender.com/sheets-test", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ braceletDetails })
-    })      
-      .then((res) => res.json())
-
-    console.log('fetched')
-    const isDoubleSided = 
-    braceletDetails.braceletDetails['centerpiece']['front-side']['type'] && braceletDetails.braceletDetails['centerpiece']['back-side']['type']
+    console.log("Starting PD useEffect");
+  
+    const isDoubleSided =
+      braceletDetails.braceletDetails['centerpiece']['front-side']['type'] &&
+      braceletDetails.braceletDetails['centerpiece']['back-side']['type']
         ? true
         : false;
+  
+    console.log("isDoubleSided:", isDoubleSided);
+  
     // Create PaymentIntent with the dynamically determined productId
     fetch("https://traitlets-be.onrender.com/create-payment-intent", {
       method: "POST",
@@ -36,10 +33,18 @@ const PaymentDetails = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("PaymentIntent data:", data);
         setClientSecret(data.clientSecret);
         setCheckoutPrice(data.productPrice);
+      })
+      .catch((error) => {
+        console.error("Error during PD fetch:", error);
+      })
+      .finally(() => {
+        console.log("Ending PD useEffect");
       });
   }, []);
+  
 
   const appearance = {
     theme: 'stripe',

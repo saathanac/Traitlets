@@ -21,9 +21,11 @@ app.use(express.static("public"));
 let braceletDetails
 
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+    console.log("webhook called")
     let event = request.body;
 
     if (endpointSecret) {
+      console.log("endpoint secret found")
       // Get the signature sent by Stripe
       const signature = request.headers['stripe-signature'];
       try {
@@ -36,6 +38,9 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
         console.log(`⚠️  Webhook signature verification failed.`, err.message);
         return response.sendStatus(400);
       }
+    }
+    else {
+      console.log("No endpoint secret")
     }
 
     switch (event.type) {
@@ -54,6 +59,33 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   
     // Return a 200 response to acknowledge receipt of the event
     response.json({received: true});
+  });
+
+  app.post("/create-payment-intent", async (req, res) => {
+    braceletDetails = req.body?.braceletDetails?.braceletDetails
+  
+    // Set productId based on the value of doubleSided
+    const productId = isDoubleSided(braceletDetails) ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
+  
+    try {
+      const productPrice = await calculateOrderAmount(productId);
+  
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: productPrice,
+        currency: "cad",
+        automatic_payment_methods: {
+          enabled: true,
+        }
+      });
+  
+      res.send({
+          clientSecret: paymentIntent.client_secret,
+          productPrice: productPrice/100,
+        });
+  
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   });
 
   async function updateGoogleSheet(productId, productPrice, braceletDetails, paymentIntent) {
@@ -85,6 +117,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
             braceletDetails['centerpiece']['back-side']['design'] || '',
             braceletDetails['size'],
         ];
+        console.log("Bracelet details received")
+
     }
     else{
         console.error("braceletDetails not received")
@@ -93,7 +127,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     const googleSheetClient = await getGoogleSheetClient();
     console.log("client got")
     await writeGoogleSheet(googleSheetClient, orderData);
-    console.log("after write")
   }
 
 app.use(express.json());
@@ -125,32 +158,5 @@ const calculateOrderAmount = async (productId) => {
     throw new Error("Error calculating order amount");
   }
 };
-
-app.post("/create-payment-intent", async (req, res) => {
-  braceletDetails = req.body?.braceletDetails?.braceletDetails
-
-  // Set productId based on the value of doubleSided
-  const productId = isDoubleSided(braceletDetails) ? "prod_P7HdNrekkz8B1W" : "prod_P7HcQj0aZcDqIC";
-
-  try {
-    const productPrice = await calculateOrderAmount(productId);
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: productPrice,
-      currency: "cad",
-      automatic_payment_methods: {
-        enabled: true,
-      }
-    });
-
-    res.send({
-        clientSecret: paymentIntent.client_secret,
-        productPrice: productPrice/100,
-      });
-
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 app.listen(4242, () => console.log("Node server listening on port 4242!"));
