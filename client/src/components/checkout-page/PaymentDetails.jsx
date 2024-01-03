@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { SelectionContext, useSelectionContext, SelectionContextProvider } from '../../context/SelectionContext';
 
-const stripePromise = loadStripe("pk_test_51OJ2wsGskqTr9F1NjgcuzNzEdq0vIeUrXDOd2jGiNRDGjIptNszWXS9gzCDOiKF4fzwEahWo1Ite81udQAl0Chvq00wkO8srl4");
+const stripePromise = loadStripe("pk_test_51OUZkiCOJiubhZCCCsbqkMtZY1LuVE7eJru7jKxF47c4xTzZCN9n6i2s7vYAcpLyL0AbkkzI5sR99PHiuiPG1FvU00qlsjgshZ");
 
 const PaymentDetails = () => {
   const { setCheckoutPrice } = useSelectionContext()

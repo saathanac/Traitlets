@@ -64,7 +64,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   app.post("/create-payment-intent", async (req, res) => {
     braceletDetails = req.body?.braceletDetails?.braceletDetails
     // Single-sided product id
-    const productId = "prod_P7HcQj0aZcDqIC";
+    const productId = process.env.PRODUCT_ID;
   
     try {
       const productPrice = await calculateOrderAmount(productId);
