@@ -2,8 +2,8 @@ import React from 'react'
 import HomeGetStartedButton from './HomeGetStartedButton'
 export default function HomeWelcome() {
   return (
-    <div className="lg:justify-left h-full w-full bg-white items-center" >
-        <div className=" h-full border-solid border-transparent border-[2rem]">
+    <div className="lg:justify-left w-full bg-white" style={{ marginTop: '40%' }}>
+        <div className=" border-solid border-transparent border-[2rem]">
             <div className="text-center">
             <p className="lg:text-3xl leading-8 text-gray-600">
                 Welcome To The

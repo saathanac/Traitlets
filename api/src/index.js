@@ -24,6 +24,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     console.log("webhook called")
     let event = request.body;
     console.log("prev BD", braceletDetails)
+    console.log("event: ", event)
+    console.log("event BD: ", request.body.braceletDetails)
 
     braceletDetails = request.body?.braceletDetails?.braceletDetails
     console.log("post BD", braceletDetails)
