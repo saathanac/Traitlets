@@ -17,50 +17,10 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const endpointSecret = process.env.ENDPOINT_SECRET;
 
 app.use(express.static("public"));
+app.use(express.json());
+
 
 let braceletDetails
-app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-  console.log('Webhook called');
-  console.log('Type of request.body:', typeof request.body);
-  let event;
-  console.log("webhook BD", braceletDetails)
-
-  if (endpointSecret) {
-    console.log("endpoint secret found")
-    // Get the signature sent by Stripe
-    const signature = request.headers['stripe-signature'];
-    try {
-      event = stripe.webhooks.constructEvent(
-        request.body,
-        signature,
-        endpointSecret
-      );
-    } catch (err) {
-      console.log(`⚠️  Webhook signature verification failed.`, err.message);
-      return response.sendStatus(400);
-    }
-  }
-  else {
-    console.log("No endpoint secret")
-  }
-
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntent = event.data.object;
-      console.log("PaymentIntent succeeded");
-      updateGoogleSheet(paymentIntent.amount, braceletDetails || null, paymentIntent)
-      break;
-    case 'payment_intent.created':
-      console.log(`PaymentIntent creation successful!`);
-      break;
-    default:
-      // Unexpected event type
-      console.log(`Unhandled event type ${event.type}.`);
-  }
-
-  // Return a 200 response to acknowledge receipt of the event
-  response.json({received: true});
-});
 
 app.post("/create-payment-intent", async (req, res) => {
   console.log("Req", req.body)
@@ -91,6 +51,48 @@ app.post("/create-payment-intent", async (req, res) => {
   }
 });
 
+app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+    console.log('Webhook called');
+    console.log('Type of request.body:', typeof request.body);
+    let event;
+    console.log("webhook BD", braceletDetails)
+
+    if (endpointSecret) {
+      console.log("endpoint secret found")
+      // Get the signature sent by Stripe
+      const signature = request.headers['stripe-signature'];
+      try {
+        event = stripe.webhooks.constructEvent(
+          request.body,
+          signature,
+          endpointSecret
+        );
+      } catch (err) {
+        console.log(`⚠️  Webhook signature verification failed.`, err.message);
+        return response.sendStatus(400);
+      }
+    }
+    else {
+      console.log("No endpoint secret")
+    }
+
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object;
+        console.log("PaymentIntent succeeded");
+        updateGoogleSheet(paymentIntent.amount, braceletDetails || null, paymentIntent)
+        break;
+      case 'payment_intent.created':
+        console.log(`PaymentIntent creation successful!`);
+        break;
+      default:
+        // Unexpected event type
+        console.log(`Unhandled event type ${event.type}.`);
+    }
+  
+    // Return a 200 response to acknowledge receipt of the event
+    response.json({received: true});
+  });
 
   async function updateGoogleSheet(productPrice, braceletDetails, paymentIntent) {
     // Append order data to Google Spreadsheet
