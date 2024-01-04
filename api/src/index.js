@@ -54,6 +54,8 @@ app.post("/create-payment-intent", async (req, res) => {
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
     console.log('Webhook called');
     console.log('Type of request.body:', typeof request.body);
+    console.log('Content of request.body:', request.body);
+
     let event;
     console.log("webhook BD", braceletDetails)
 
@@ -134,8 +136,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     console.log("client got")
     await writeGoogleSheet(googleSheetClient, orderData);
   }
-
-app.use(express.json());
 
 // Function to retrieve the product price from Stripe using the product ID
 const getProductPrice = async (productId) => {
