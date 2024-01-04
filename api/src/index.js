@@ -17,10 +17,13 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const endpointSecret = process.env.ENDPOINT_SECRET;
 
 app.use(express.static("public"));
+app.use(express.json());
+
 
 let braceletDetails
 
 app.post("/create-payment-intent", async (req, res) => {
+  console.log("Req", req.body)
   console.log("Req body", req.body)
   braceletDetails = req.body?.braceletDetails?.braceletDetails
   console.log("intent BD", braceletDetails)
