@@ -20,15 +20,41 @@ app.use(express.static("public"));
 
 let braceletDetails
 
+app.post("/create-payment-intent", async (req, res) => {
+  console.log(req)
+  console.log(req.body)
+  console.log(req.body?.braceletDetails)
+  braceletDetails = req.body?.braceletDetails?.braceletDetails
+  console.log("intent BD", braceletDetails)
+  // Single-sided product id
+  const productId = process.env.PRODUCT_ID;
+
+  try {
+    const productPrice = await calculateOrderAmount(productId);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: productPrice,
+      currency: "cad",
+      automatic_payment_methods: {
+        enabled: true,
+      }
+    });
+
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+        productPrice: productPrice/100,
+      });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
     console.log("webhook called")
     let event = request.body;
-    console.log("prev BD", braceletDetails)
-    console.log("event: ", event)
-    console.log("event BD: ", request.body.braceletDetails)
-
-    braceletDetails = request.body?.braceletDetails?.braceletDetails
-    console.log("post BD", braceletDetails)
+    
+    console.log("webhook BD", braceletDetails)
 
     if (endpointSecret) {
       console.log("endpoint secret found")
@@ -65,33 +91,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   
     // Return a 200 response to acknowledge receipt of the event
     response.json({received: true});
-  });
-
-  app.post("/create-payment-intent", async (req, res) => {
-    braceletDetails = req.body?.braceletDetails?.braceletDetails
-    console.log("intent BD", braceletDetails)
-    // Single-sided product id
-    const productId = process.env.PRODUCT_ID;
-  
-    try {
-      const productPrice = await calculateOrderAmount(productId);
-  
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: productPrice,
-        currency: "cad",
-        automatic_payment_methods: {
-          enabled: true,
-        }
-      });
-  
-      res.send({
-          clientSecret: paymentIntent.client_secret,
-          productPrice: productPrice/100,
-        });
-  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
   });
 
   async function updateGoogleSheet(productPrice, braceletDetails, paymentIntent) {

@@ -16,15 +16,8 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     console.log("Starting PD useEffect");
-  
-    const isDoubleSided =
-      braceletDetails.braceletDetails['centerpiece']['front-side']['type'] &&
-      braceletDetails.braceletDetails['centerpiece']['back-side']['type']
-        ? true
-        : false;
-  
-    console.log("isDoubleSided:", isDoubleSided);
-  
+    console.log("payment details in useEffect", braceletDetails)
+
     // Create PaymentIntent with the dynamically determined productId
     fetch("https://traitlets-be.onrender.com/create-payment-intent", {
       method: "POST",
