@@ -88,7 +88,7 @@ function SelectionsDisplay() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
    
   return (
-    <div className='bg-white absolute bottom-0 w-full lg:h-[42%]'>
+    <div className='bg-white absolute bottom-0 w-full min-h-[30%] lg:h-[42%]'>
         <div className='w-full flex justify-center'>
             <StepNavigation/>
         </div>
@@ -168,7 +168,8 @@ function SelectionsDisplay() {
         >
           {"Scroll for more"}
         </Typography>
-      )}    </div>
+      )}    
+    </div>
   )
 }
 
