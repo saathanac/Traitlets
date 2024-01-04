@@ -17,8 +17,6 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const endpointSecret = process.env.ENDPOINT_SECRET;
 
 app.use(express.static("public"));
-app.use(express.json());
-
 
 let braceletDetails
 
@@ -77,6 +75,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     else {
       console.log("No endpoint secret")
     }
+    console.log("Signature succeeded")
 
     switch (event.type) {
       case 'payment_intent.succeeded':
