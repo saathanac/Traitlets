@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import StepNavigation from './StepNavigation'
 import { SelectionContext, useSelectionContext, SelectionContextProvider } from '../../context/SelectionContext';
 import OptionButton from './OptionButton';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +19,8 @@ function SelectionsDisplay() {
     const { activeStep, braceletDetails, options, addToOrder, centerpieceSide, 
             setCenterpieceSide, handleEngravingChange, engravingText, addCenterpieceToOrder, type, setType, setEngravingText, backEngravingText, setBackEngravingText, handleBackEngravingChange } = useSelectionContext()
     const [value, setValue] = useState(0);
+    const [isOverflow, setIsOverflow] = useState(false);
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -34,6 +37,48 @@ function SelectionsDisplay() {
             break;
         }
     };
+
+    useEffect(()=> {
+        console.log("before", isOverflow)
+        setIsOverflow(false)
+        console.log("after", isOverflow)
+    }, [activeStep])
+
+    const beadContainerRef = useRef(null);
+    const iconContainerRef = useRef(null);
+    const indBeadContainerRef = useRef(null);
+
+    useEffect(() => {
+        const iconContainer = iconContainerRef.current;
+        const beadContainer = beadContainerRef.current;
+
+        if(iconContainer){
+            console.log("icon container")
+            overflowText({ container: iconContainer });
+        }
+        else if(beadContainer){
+            console.log("bead container")
+            overflowText({ container: beadContainer });
+        }
+        else{
+            console.log("no container")
+        }
+    }, [iconContainerRef.current, options]); // Include any dependencies that might affect the container's content
+
+    const overflowText = ({ container }) => {
+        console.log(container)
+        console.log("width", container.scrollWidth, container.clientWidth)
+            const handleOverflow = () => {
+            if (container.scrollWidth > container.clientWidth) {
+                // Container overflowed, display alert or take any other action
+                setIsOverflow(true);
+            }
+            };
+            container.addEventListener('resize', handleOverflow);
+
+            // Call handleOverflow on mount and whenever the content changes
+            handleOverflow();   
+        }
     
     const handleChangeDesign = (event) => {
         setType(event.target.value);
@@ -48,11 +93,11 @@ function SelectionsDisplay() {
             <StepNavigation/>
         </div>
         <div className="flex justify-center mb-10 w-full">
-            <div className={`overflow-container ${activeStep == 2 && 'w-full'} ${activeStep != 2 && 'overflow-auto '} flex gap-8`}>
+            <div ref={beadContainerRef} className={`overflow-container ${activeStep == 2 && 'w-full'} ${activeStep != 2 && 'overflow-auto '} flex gap-8`}>
                 {activeStep != 2 ? 
                     options.map((optionObj) => {
                         return(
-                            <div className='flex-shrink-0 border-transparent border-opacity-50 border-8' onClick={(event) => {event.stopPropagation(); addToOrder(optionObj)}}>
+                            <div  ref={indBeadContainerRef} className='flex-shrink-0 border-transparent border-opacity-50 border-8' onClick={(event) => {event.stopPropagation(); addToOrder(optionObj)}}>
                                 <OptionButton opt={optionObj} step={activeStep}/>
                             </div>
                         )
@@ -100,7 +145,7 @@ function SelectionsDisplay() {
                         </div>}
                         
                         {/* fix this */}
-                        {type == 'icon' && <div className={`flex gap-8 mt-12 overflow-auto ${ !isSmallScreen && 'max-w-[60%]'}`}>
+                        {type == 'icon' && <div ref={iconContainerRef} className={`flex gap-8 mt-12 overflow-auto ${ !isSmallScreen && 'max-w-[60%]'}`}>
                             {options.map((optionObj) => {
                                 return(
                                     <div onClick={(event) => {event.stopPropagation(); addCenterpieceToOrder(optionObj);}}>
@@ -116,7 +161,14 @@ function SelectionsDisplay() {
                 }
             </div>
         </div>
-    </div>
+        {isOverflow && (
+        <Typography
+          sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
+          className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
+        >
+          {"Scroll for more"}
+        </Typography>
+      )}    </div>
   )
 }
 
