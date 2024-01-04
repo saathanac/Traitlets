@@ -92,7 +92,16 @@ function SelectionsDisplay() {
         <div className='w-full flex justify-center'>
             <StepNavigation/>
         </div>
+        {isOverflow && activeStep != 2 && (
+        <Typography
+          sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
+          className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
+        >
+          {"Scroll for more"}
+        </Typography>
+      )}    
         <div className="flex justify-center mb-10 w-full">
+            
             <div ref={beadContainerRef} className={`overflow-container ${activeStep == 2 && 'w-full'} ${activeStep != 2 && 'overflow-auto '} flex gap-8`}>
                 {activeStep != 2 ? 
                     options.map((optionObj) => {
@@ -145,6 +154,14 @@ function SelectionsDisplay() {
                         </div>}
                         
                         {/* fix this */}
+                        {isOverflow && (
+                        <Typography
+                        sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
+                        className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
+                        >
+                        {"Scroll for more"}
+                        </Typography>
+                        )}    
                         {type == 'icon' && <div ref={iconContainerRef} className={`flex gap-8 mt-12 overflow-auto ${ !isSmallScreen && 'max-w-[60%]'}`}>
                             {options.map((optionObj) => {
                                 return(
@@ -161,14 +178,7 @@ function SelectionsDisplay() {
                 }
             </div>
         </div>
-        {isOverflow && (
-        <Typography
-          sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
-          className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
-        >
-          {"Scroll for more"}
-        </Typography>
-      )}    
+        
     </div>
   )
 }
