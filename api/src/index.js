@@ -18,13 +18,11 @@ const endpointSecret = process.env.ENDPOINT_SECRET;
 
 let braceletDetails
 
+// Webhook needs express to process the body raw, so no 'app.use()' can go before this definition
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
   console.log('Webhook called');
-  console.log('Type of request.body:', typeof request.body);
-  console.log('Content of request.body:', request.body);
-
   let event;
-  console.log("webhook BD", braceletDetails)
+  console.log("webhook braceletDetails", braceletDetails)
 
   if (endpointSecret) {
     console.log("endpoint secret found")
@@ -63,8 +61,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   response.json({received: true});
 });
 
+// Payment intent needs express to process the body as a json object
 app.use(express.json());
-
 app.post("/create-payment-intent", async (req, res) => {
   console.log("Req", req.body)
   console.log("Req body", req.body)
