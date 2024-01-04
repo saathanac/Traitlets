@@ -21,7 +21,7 @@ app.use(express.static("public"));
 let braceletDetails
 
 app.post("/create-payment-intent", async (req, res) => {
-  console.log(req.body.braceletDetails)
+  console.log("Req body", req.body)
   braceletDetails = req.body?.braceletDetails?.braceletDetails
   console.log("intent BD", braceletDetails)
   // Single-sided product id
