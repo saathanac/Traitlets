@@ -68,12 +68,14 @@ function SelectionsDisplay() {
         console.log(container)
         console.log("width", container.scrollWidth, container.clientWidth)
             const handleOverflow = () => {
-            if (container.scrollWidth > container.clientWidth) {
-                // Container overflowed, display alert or take any other action
-                setIsOverflow(true);
-            }
+                if (container.scrollWidth > container.clientWidth) {
+                    // Container overflowed, display alert or take any other action
+                    setIsOverflow(true);
+                }
+                else {
+                    setIsOverflow(false);
+                }
             };
-            container.addEventListener('resize', handleOverflow);
 
             // Call handleOverflow on mount and whenever the content changes
             handleOverflow();   
@@ -92,11 +94,11 @@ function SelectionsDisplay() {
             <StepNavigation/>
         </div>
         <div className="lg:flex justify-center mt-4 mb-4">
-        {isOverflow && activeStep !== 2 && (
-            <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
-            Scroll for more
-            </div>
-        )}
+            {(isOverflow && activeStep !== 2) && (
+                <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
+                Scroll for more
+                </div>
+            )}
         </div>
         <div className="flex justify-center mb-10 w-full">
             
