@@ -92,7 +92,7 @@ function SelectionsDisplay() {
         <div className='w-full flex justify-center'>
             <StepNavigation/>
         </div>
-        <div className="flex justify-center mt-4 mb-4">
+        <div className="lg:flex justify-center mt-4 mb-4">
         {isOverflow && activeStep !== 2 && (
             <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
             Scroll for more
@@ -118,6 +118,14 @@ function SelectionsDisplay() {
                                 <Tab label="back-side" sx={{ width: isSmallScreen ? '150px' : '420px'}}/>
                             </Tabs>
                         </div>
+                        {isOverflow && (
+                        <Typography
+                        sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
+                        className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
+                        >
+                        {"Scroll for more"}
+                        </Typography>
+                        )}
                         <div className='flex justify-center md:flex-row flex-col '>
                         <Box className="flex justify-center md:w-1/6 mt-10 mr-0 lg:mr-4 px-2">
                             <FormControl fullWidth>
@@ -152,15 +160,7 @@ function SelectionsDisplay() {
                             </Box>
                         </div>}
                         
-                        {/* fix this */}
-                        {isOverflow && (
-                        <Typography
-                        sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
-                        className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
-                        >
-                        {"Scroll for more"}
-                        </Typography>
-                        )}    
+                        {/* fix this */}    
                         {type == 'icon' && <div ref={iconContainerRef} className={`flex gap-8 mt-12 overflow-auto ${ !isSmallScreen && 'max-w-[60%]'}`}>
                             {options.map((optionObj) => {
                                 return(
