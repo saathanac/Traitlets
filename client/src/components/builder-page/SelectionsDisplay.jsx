@@ -92,14 +92,13 @@ function SelectionsDisplay() {
         <div className='w-full flex justify-center'>
             <StepNavigation/>
         </div>
-        {isOverflow && activeStep != 2 && (
-        <Typography
-          sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
-          className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
-        >
-          {"Scroll for more"}
-        </Typography>
-      )}    
+        <div className="flex justify-center mt-4 mb-4">
+        {isOverflow && activeStep !== 2 && (
+            <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
+            Scroll for more
+            </div>
+        )}
+        </div>
         <div className="flex justify-center mb-10 w-full">
             
             <div ref={beadContainerRef} className={`overflow-container ${activeStep == 2 && 'w-full'} ${activeStep != 2 && 'overflow-auto '} flex gap-8`}>
