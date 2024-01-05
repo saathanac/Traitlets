@@ -63,7 +63,7 @@ function SelectionsDisplay() {
         else{
             console.log("no container")
         }
-    }, [iconContainerRef.current, options]); // Include any dependencies that might affect the container's content
+    }, [iconContainerRef.current, options, type]); // Include any dependencies that might affect the container's content
 
     const overflowText = ({ container }) => {
         console.log(container)
@@ -93,14 +93,18 @@ function SelectionsDisplay() {
             <StepNavigation/>
         </div>
         <div className="lg:flex justify-center mt-4 mb-4">
-        {isOverflow && activeStep !== 2 && (
-            <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
-            Scroll for more
-            </div>
-        )}
+            {isOverflow && activeStep !== 2 ? (
+                <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
+                Scroll for more
+                </div>
+            ) :
+            (
+                <div className="text-white overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
+                Scroll for more
+                </div>
+            )}
         </div>
         <div className="flex justify-center mb-10 w-full">
-            
             <div ref={beadContainerRef} className={`overflow-container ${activeStep == 2 && 'w-full'} ${activeStep != 2 && 'overflow-auto '} flex gap-8`}>
                 {activeStep != 2 ? 
                     options.map((optionObj) => {
@@ -117,15 +121,19 @@ function SelectionsDisplay() {
                                 <Tab label="front-side" sx={{ width: isSmallScreen ? '150px' : '420px'}}/>
                                 <Tab label="back-side" sx={{ width: isSmallScreen ? '150px' : '420px'}}/>
                             </Tabs>
+                        </div >
+                        <div className="mt-4 mb-4">
+                            {isOverflow && activeStep == 2 ? (
+                            <div className="text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
+                            Scroll for more
+                            </div>
+                            ) :
+                            (
+                                <div className="text-white overflow-hidden text-center text-lg transition-all duration-300 ease-in-out">
+                                Scroll for more
+                                </div>
+                            )}
                         </div>
-                        {isOverflow && (
-                        <Typography
-                        sx={{ mt: 2, mb: 1, fontSize: '14pt' }}
-                        className='text-gray-500 overflow-hidden text-center text-lg transition-all duration-300 ease-in-out'
-                        >
-                        {"Scroll for more"}
-                        </Typography>
-                        )}
                         <div className='flex justify-center md:flex-row flex-col '>
                         <Box className="flex justify-center md:w-1/6 mt-10 mr-0 lg:mr-4 px-2">
                             <FormControl fullWidth>
