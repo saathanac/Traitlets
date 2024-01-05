@@ -68,7 +68,7 @@ function SelectionsDisplay() {
         console.log(container)
         console.log("width", container.scrollWidth, container.clientWidth)
             const handleOverflow = () => {
-                if (container.scrollWidth > container.clientWidth) {
+                if (container.scrollWidth > container.clientWidth && (type == "icon" || activeStep != 2)) {
                     // Container overflowed, display alert or take any other action
                     setIsOverflow(true);
                 }
