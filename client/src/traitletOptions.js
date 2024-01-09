@@ -65,6 +65,12 @@ const traitletOptions = {
             "hex":"#e7ebe8",
             "image":"./images/white-pearl.png",
         },
+        {
+            "id":"white-pearl",
+            "name":"White Pearl",
+            "hex":"#e7ebe8",
+            "image":"./images/winniethepooh.png",
+        },
     ],
     "centerpiece": [
         //may require specific image sizes
