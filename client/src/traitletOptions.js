@@ -163,11 +163,6 @@ const traitletOptions = {
             "name":"Trumpet",
             "image":"./images/unedited-traitlet-icons/Trumpet.png",
         },
-        {
-            "id":"trumpet",
-            "name":"Trumpet",
-            "image":"./images/unedited-traitlet-icons/Trumpet.png",
-        },
     ],
     "size": [
         {"name":'XS', "size":'16 cm'},
