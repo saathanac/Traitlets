@@ -31,8 +31,8 @@ const OrderSummary = () => {
                 <p className='text-base font-medium text-gray-800 mb-1'>Customized Traitlet</p>
                 {displayElement(braceletDetails.braceletDetails['base-beads'], 'Base bead', braceletDetails.braceletDetails['base-beads']['name'])}
                 {displayElement(braceletDetails.braceletDetails['accessory-beads'], 'Accessory bead', braceletDetails.braceletDetails['accessory-beads'] ? braceletDetails.braceletDetails['accessory-beads']['name'] : 'None')}
-                {displayElement(braceletDetails.braceletDetails['centerpiece']['front-side']['type'], 'Front Centrepiece', `${capitalizeFirstLetter(braceletDetails.braceletDetails['centerpiece']['front-side']['type'])} - ${braceletDetails.braceletDetails['centerpiece']['front-side']['design']}`)}
-                {displayElement(braceletDetails.braceletDetails['centerpiece']['back-side']['type'], 'Back Centrepiece', `${capitalizeFirstLetter(braceletDetails.braceletDetails['centerpiece']['back-side']['type'])} - ${braceletDetails.braceletDetails['centerpiece']['back-side']['design']}`)}
+                {displayElement(braceletDetails.braceletDetails['centerpiece']['front-side']['design'], 'Front Centrepiece', `${capitalizeFirstLetter(braceletDetails.braceletDetails['centerpiece']['front-side']['type'])} - ${braceletDetails.braceletDetails['centerpiece']['front-side']['design']}`)}
+                {displayElement(braceletDetails.braceletDetails['centerpiece']['back-side']['design'], 'Back Centrepiece', `${capitalizeFirstLetter(braceletDetails.braceletDetails['centerpiece']['back-side']['type'])} - ${braceletDetails.braceletDetails['centerpiece']['back-side']['design']}`)}
                 {displayElement(braceletDetails.braceletDetails['size'], 'Size', braceletDetails.braceletDetails['size'])}
 
             </div>
@@ -55,7 +55,12 @@ const OrderSummary = () => {
                 <p>Standard Traitlet</p>
                 <p>+ $20.00</p>
             </div>
-            {braceletDetails.braceletDetails['centerpiece']['front-side']['type'] && braceletDetails.braceletDetails['centerpiece']['back-side']['type'] &&
+            <div className='px-4 flex text-base text-gray-500 justify-between'>
+                <p>Shipping</p>
+                <p>+ $2.00</p>
+            </div>
+            {/* design is null if none is selected */}
+            {braceletDetails.braceletDetails['centerpiece']['front-side']['design'] && braceletDetails.braceletDetails['centerpiece']['back-side']['design'] &&
                 <div className='px-4 flex text-base text-gray-500 justify-between'>
                     <p>Additional custom design</p>
                     <p>+ $5.00</p>

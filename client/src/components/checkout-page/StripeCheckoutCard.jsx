@@ -86,7 +86,7 @@ export default function CheckoutForm() {
 
   return (
     <div className="border-solid border-transparent border-[2rem]">
-      <form id="payment-form" onSubmit={handleSubmit} >
+      <form id="payment-form" onSubmit={handleSubmit} style={{ maxHeight: "700px", overflowY: "auto" }}>
         <label className="text-gray-600">Email address</label>
         <input
           id="email"
