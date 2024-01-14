@@ -4,11 +4,11 @@ import CanvasModel from '../../canvas'
 
 function TopDisplay() {
   return (
-    <div className='h-[52%]'>
-        <div className='px-[25%] py-12'>
+    <div>
+        <div className='flex px-[25%] mt-5'>
             <Stepper/>
         </div>
-        <div className='h-[80%]'>
+        <div style={{ height: '50%' }} className='absolute w-full'>
           <CanvasModel/>
         </div>
     </div>

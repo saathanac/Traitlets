@@ -1,8 +1,9 @@
 const { google } = require('googleapis');
-const serviceAccountKeyFile = "src/traitlets-d6754b69ff60.json";
-const sheetId = '1M0AqJPS4JDaadtnTiBpMHJBbUufzj7Xtj495zfFe3OQ';
+// change to src/traitlets-database-key.json for local testing
+const serviceAccountKeyFile = "/etc/secrets/traitlets-database-key.json";
 const tabName = 'Orders';
 const range = 'A:v';
+require('dotenv').config();
 
 async function getGoogleSheetClient() {
     try {
@@ -23,7 +24,10 @@ async function getGoogleSheetClient() {
 
 async function writeGoogleSheet(googleSheetClient, data) {
   console.log("Before writing to Google Sheets:", new Date().toISOString());
+  console.log("Data to be written:", data);
+  const sheetId = process.env.GOOGLE_SHEETS_ID;
   try {
+    const response = console.log(sheetId ? "sheet id found" : "no sheet id");
     await googleSheetClient.spreadsheets.values.append({
       spreadsheetId: sheetId,
       range: `${tabName}!${range}`,

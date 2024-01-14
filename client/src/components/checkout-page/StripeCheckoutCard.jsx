@@ -17,6 +17,7 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     if (!stripe) {
+      console.log("!stripe")
       return;
     }
 
@@ -61,7 +62,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:5173",
+        return_url: "https://traitlets-fe.onrender.com",
         receipt_email: email,
       },
     });
@@ -86,7 +87,7 @@ export default function CheckoutForm() {
 
   return (
     <div className="border-solid border-transparent border-[2rem]">
-      <form id="payment-form" onSubmit={handleSubmit} >
+      <form id="payment-form" onSubmit={handleSubmit} style={{ maxHeight: "700px", overflowY: "auto" }}>
         <label className="text-gray-600">Email address</label>
         <input
           id="email"

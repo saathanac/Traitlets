@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { SelectionContext, useSelectionContext, SelectionContextProvider } from '../../context/SelectionContext';
 
-const stripePromise = loadStripe("pk_test_51OJ2wsGskqTr9F1NjgcuzNzEdq0vIeUrXDOd2jGiNRDGjIptNszWXS9gzCDOiKF4fzwEahWo1Ite81udQAl0Chvq00wkO8srl4");
+const stripePromise = loadStripe("pk_live_51OUZkiCOJiubhZCChE9Uc5GbeVrTmpdLIadVzTd3W0t2F4hT1GjQWKYZpgMxMORuPbzTBlLqksQITQ8AC4jMw05G00vB8CphOe");
 
 const PaymentDetails = () => {
   const { setCheckoutPrice } = useSelectionContext()
@@ -15,23 +15,29 @@ const PaymentDetails = () => {
   console.log("payment details", braceletDetails)
 
   useEffect(() => {
-    // Set productId conditionally based on braceletDetails
-    const isDoubleSided = 
-    braceletDetails.braceletDetails['centerpiece']['front-side']['type'] && braceletDetails.braceletDetails['centerpiece']['back-side']['type']
-        ? true
-        : false;
+    console.log("Starting PD useEffect");
+    console.log("payment details in useEffect", braceletDetails)
+
     // Create PaymentIntent with the dynamically determined productId
-    fetch("http://localhost:4242/create-payment-intent", {
+    fetch("https://traitlets-be.onrender.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ braceletDetails })
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("PaymentIntent data:", data);
         setClientSecret(data.clientSecret);
         setCheckoutPrice(data.productPrice);
+      })
+      .catch((error) => {
+        console.error("Error during PD fetch:", error);
+      })
+      .finally(() => {
+        console.log("Ending PD useEffect");
       });
   }, []);
+  
 
   const appearance = {
     theme: 'stripe',
